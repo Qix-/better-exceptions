@@ -136,6 +136,8 @@ def get_relevant_values(source, frame, tree):
             val = frame.f_globals.get(text, None)
             values.append((text, col, format_value(val)))
 
+    values.sort(key=lambda e: e[1])
+
     return values
 
 
