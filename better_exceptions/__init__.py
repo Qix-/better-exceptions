@@ -44,6 +44,8 @@ THEME = {
     'inspect': lambda s: s if NOCOLOR else u'\x1b[36m{}\x1b[m'.format(s),
 }
 
+MAX_LENGTH = 128
+
 
 def colorize_comment(source):
     match = COMMENT_REGXP.match(source)
@@ -113,6 +115,13 @@ def get_relevant_names(source, tree):
     return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
 
 
+def format_value(v):
+    v = repr(v)
+    if MAX_LENGTH is not None and len(v) > MAX_LENGTH:
+        v = v[:MAX_LENGTH] + '...'
+    return v
+
+
 def get_relevant_values(source, frame, tree):
     names = get_relevant_names(source, tree)
     values = []
@@ -122,10 +131,10 @@ def get_relevant_values(source, frame, tree):
         col = name.col_offset
         if frame.f_locals.has_key(text):
             val = frame.f_locals.get(text, None)
-            values.append((text, col, repr(val)))
+            values.append((text, col, format_value(val)))
         elif frame.f_globals.has_key(text):
             val = frame.f_globals.get(text, None)
-            values.append((text, col, repr(val)))
+            values.append((text, col, format_value(val)))
 
     return values
 
