@@ -113,8 +113,7 @@ def get_relevant_names(source, tree):
     return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
 
 
-def get_relevant_values(source, frame):
-    tree = ast.parse(source, mode='exec')
+def get_relevant_values(source, frame, tree):
     names = get_relevant_names(source, tree)
     values = []
 
@@ -132,14 +131,17 @@ def get_relevant_values(source, frame):
 
 
 def get_frame_information(frame):
+    function = inspect.getframeinfo(frame)[2]
     filename, lineno, source = get_source_line(frame)
-    tree = ast.parse(source)
+    try:
+        tree = ast.parse(source, mode='exec')
+    except SyntaxError:
+        return filename, lineno, function, source, source, []
     mod = inspect.getmodule(frame)
 
-    relevant_values = get_relevant_values(source, frame)
+    relevant_values = get_relevant_values(source, frame, tree)
     color_source = colorize_tree(tree, source)
 
-    function = inspect.getframeinfo(frame)[2]
 
     return filename, lineno, function, source, color_source, relevant_values
 
