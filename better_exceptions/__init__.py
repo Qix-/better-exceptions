@@ -155,7 +155,7 @@ def format_frame(frame):
         for pc in pipe_cols:
             line += ' ' * (pc - index) + u'\u2502'
             index = pc + 1
-        line += (' ' * (col - index)) + u'\u2515 ' + val
+        line += (' ' * (col - index)) + u'\u2514 ' + val
         lines.append(THEME['inspect'](line))
 
     formatted = '\n    '.join(lines)
