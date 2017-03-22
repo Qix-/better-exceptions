@@ -71,7 +71,7 @@ def colorize_tree(tree, source):
         chunks.append(THEME[theme](s))
         return begin_col + len(s)
 
-    for i in xrange(nnodes):
+    for i in range(nnodes):
         node = nodes[i]
         nodecls = node.__class__
         nodename = nodecls.__name__
@@ -104,6 +104,7 @@ def get_source_line(frame):
         return None
 
     count = 1
+
     with open(frame.f_code.co_filename, 'r') as f:
         while count < line:
             next(f)
@@ -129,10 +130,10 @@ def get_relevant_values(source, frame, tree):
     for name in names:
         text = name.id
         col = name.col_offset
-        if frame.f_locals.has_key(text):
+        if text in frame.f_locals:
             val = frame.f_locals.get(text, None)
             values.append((text, col, format_value(val)))
-        elif frame.f_globals.has_key(text):
+        elif text in frame.f_globals:
             val = frame.f_globals.get(text, None)
             values.append((text, col, format_value(val)))
 
@@ -144,6 +145,7 @@ def get_relevant_values(source, frame, tree):
 def get_frame_information(frame):
     function = inspect.getframeinfo(frame)[2]
     filename, lineno, source = get_source_line(frame)
+
     try:
         tree = ast.parse(source, mode='exec')
     except SyntaxError:
@@ -162,7 +164,7 @@ def format_frame(frame):
 
     lines = [color_source]
 
-    for i in reversed(xrange(len(relevant_values))):
+    for i in reversed(range(len(relevant_values))):
         _, col, val = relevant_values[i]
         pipe_cols = [pcol for _, pcol, _ in relevant_values[:i]]
         line = ''
