@@ -13,7 +13,6 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
 from __future__ import absolute_import
 from __future__ import print_function
 
-import _ast
 import ast
 import inspect
 import keyword
@@ -71,7 +70,7 @@ def colorize_tree(tree, source):
         chunks.append(THEME[theme](s))
         return begin_col + len(s)
 
-    for i in xrange(nnodes):
+    for i in range(nnodes):
         node = nodes[i]
         nodecls = node.__class__
         nodename = nodecls.__name__
@@ -129,10 +128,10 @@ def get_relevant_values(source, frame, tree):
     for name in names:
         text = name.id
         col = name.col_offset
-        if frame.f_locals.has_key(text):
+        if text in frame.f_locals:
             val = frame.f_locals.get(text, None)
             values.append((text, col, format_value(val)))
-        elif frame.f_globals.has_key(text):
+        elif text in frame.f_globals:
             val = frame.f_globals.get(text, None)
             values.append((text, col, format_value(val)))
 
@@ -162,7 +161,7 @@ def format_frame(frame):
 
     lines = [color_source]
 
-    for i in reversed(xrange(len(relevant_values))):
+    for i in reversed(range(len(relevant_values))):
         _, col, val = relevant_values[i]
         pipe_cols = [pcol for _, pcol, _ in relevant_values[:i]]
         line = ''
