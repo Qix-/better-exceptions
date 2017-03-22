@@ -11,12 +11,12 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
 """
 
 from __future__ import absolute_import
-from __future__ import print_function
 
 import ast
 import inspect
 import keyword
 import linecache
+import locale
 import os
 import re
 import sys
@@ -28,6 +28,17 @@ def isast(v):
 
 
 NOCOLOR = not os.isatty(2) or os.name == 'nt' or os.getenv('TERM', '')[:5] != 'xterm'
+
+ENCODING = locale.getpreferredencoding()
+
+PIPE_CHAR = u'\u2502'
+CAP_CHAR = u'\u2514'
+
+try:
+    PIPE_CHAR.encode(ENCODING)
+except UnicodeEncodeError:
+    PIPE_CHAR = '|'
+    CAP_CHAR = '->'
 
 COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
 
@@ -153,9 +164,9 @@ def format_frame(frame):
         line = ''
         index = 0
         for pc in pipe_cols:
-            line += ' ' * (pc - index) + u'\u2502'
+            line += (' ' * (pc - index)) + PIPE_CHAR
             index = pc + 1
-        line += (' ' * (col - index)) + u'\u2514 ' + val
+        line += u'{}{} {}'.format((' ' * (col - index)), CAP_CHAR, val)
         lines.append(THEME['inspect'](line))
 
     formatted = '\n    '.join(lines)
@@ -182,6 +193,15 @@ def format_traceback(tb=None):
     return ''.join(lines), final_source
 
 
+def write_stderr(data):
+    data = data.encode(ENCODING)
+
+    if sys.version_info[0] < 3:
+        sys.stderr.write(data)
+    else:
+        sys.stderr.buffer.write(data)
+
+
 def excepthook(exc, value, tb):
     formatted, colored_source = format_traceback(tb)
 
@@ -189,9 +209,8 @@ def excepthook(exc, value, tb):
         value.args = (colored_source,)
     title = traceback.format_exception_only(exc, value)
 
-    full_trace = u'Traceback (most recent call last):\n{}{}'.format(formatted, title[0].strip())
-
-    print(full_trace, file=sys.stderr)
+    full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, title[0].strip())
+    write_stderr(full_trace)
 
 
 sys.excepthook = excepthook
