@@ -130,7 +130,7 @@ def get_frame_information(frame):
     function = inspect.getframeinfo(frame)[2]
     filename = inspect.getsourcefile(frame)
     lineno = frame.f_lineno
-    source = linecache.getline(filename, lineno).strip('\n ')
+    source = linecache.getline(filename, lineno).strip()
 
     try:
         tree = ast.parse(source, mode='exec')
