@@ -1,13 +1,16 @@
 from distutils.core import setup
+
+VERSION = '0.1.3'
+
 setup(
     name = 'better_exceptions',
     packages = ['better_exceptions'],
-    version = '0.1.3',
+    version = VERSION,
     description = 'Pretty and helpful exceptions, automatically',
     author = 'Josh Junon',
     author_email = 'josh@junon.me',
     url = 'https://github.com/qix-/better-exceptions',
-    download_url = 'https://github.com/qix-/better-exceptions/archive/0.1.3.tar.gz',
+    download_url = 'https://github.com/qix-/better-exceptions/archive/{}.tar.gz'.format(VERSION),
     keywords = ['pretty', 'better', 'exceptions', 'exception', 'error', 'local', 'debug', 'debugging', 'locals'],
     classifiers = [],
 )
