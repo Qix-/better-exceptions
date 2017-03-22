@@ -13,10 +13,10 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
 from __future__ import absolute_import
 from __future__ import print_function
 
-import _ast
 import ast
 import inspect
 import keyword
+import linecache
 import os
 import re
 import sys
@@ -96,22 +96,6 @@ def colorize_tree(tree, source):
     return colorize_comment(''.join(chunks))
 
 
-def get_source_line(frame):
-    line = frame.f_lineno
-    try:
-        filename = inspect.getsourcefile(frame)
-    except TypeError:
-        return None
-
-    count = 1
-
-    with open(frame.f_code.co_filename, 'r') as f:
-        while count < line:
-            next(f)
-            count += 1
-        return (filename, line, next(f).strip())
-
-
 def get_relevant_names(source, tree):
     return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
 
@@ -144,17 +128,17 @@ def get_relevant_values(source, frame, tree):
 
 def get_frame_information(frame):
     function = inspect.getframeinfo(frame)[2]
-    filename, lineno, source = get_source_line(frame)
+    filename = inspect.getsourcefile(frame)
+    lineno = frame.f_lineno
+    source = linecache.getline(filename, lineno).strip('\n ')
 
     try:
         tree = ast.parse(source, mode='exec')
     except SyntaxError:
         return filename, lineno, function, source, source, []
-    mod = inspect.getmodule(frame)
 
     relevant_values = get_relevant_values(source, frame, tree)
     color_source = colorize_tree(tree, source)
-
 
     return filename, lineno, function, source, color_source, relevant_values
 
