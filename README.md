@@ -28,5 +28,9 @@ If you want to allow the entirety of values to be outputted instead of being tru
 better_exceptions.MAX_LENGTH = None
 ```
 
+## See Also
+
+- [paradoxxxzero/better-exceptions-hook](https://github.com/paradoxxxzero/better-exceptions-hook) - removes the need to `import better_exceptions` by adding a startup hook
+
 # License
 Copyright &copy; 2017, Josh Junon. Licensed under the [MIT license](LICENSE.txt).
