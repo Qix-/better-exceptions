@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name = 'better_exceptions',
     packages = ['better_exceptions'],
-    version = '0.1.1',
+    version = '0.1.2',
     description = 'Pretty and helpful exceptions, automatically',
     author = 'Josh Junon',
     author_email = 'josh@junon.me',
