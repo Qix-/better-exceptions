@@ -32,7 +32,7 @@ NOCOLOR = not os.isatty(2) or os.name == 'nt' or os.getenv('TERM', '')[:5] != 'x
 ENCODING = locale.getpreferredencoding()
 
 PIPE_CHAR = u'\u2502'
-CAP_CHAR = u'\u2514 '
+CAP_CHAR = u'\u2514'
 
 try:
     PIPE_CHAR.encode(ENCODING)
