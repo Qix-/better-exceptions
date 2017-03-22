@@ -163,7 +163,6 @@ def format_frame(frame):
     filename, lineno, function, source, color_source, relevant_values = get_frame_information(frame)
 
     lines = [color_source]
-
     for i in reversed(range(len(relevant_values))):
         _, col, val = relevant_values[i]
         pipe_cols = [pcol for _, pcol, _ in relevant_values[:i]]
@@ -203,12 +202,12 @@ def excepthook(exc, value, tb):
     formatted, colored_source = format_traceback(tb)
 
     if not str(value) and exc is AssertionError:
-        title = traceback.format_exception_only(exc, colored_source)
-    else:
-        title = traceback.format_exception_only(exc, value)
+        value.args = (colored_source,)
+    title = traceback.format_exception_only(exc, value)
 
     full_trace = u'Traceback (most recent call last):\n{}{}'.format(formatted, title[0].strip())
 
     print(full_trace, file=sys.stderr)
+
 
 sys.excepthook = excepthook
