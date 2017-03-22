@@ -13,6 +13,7 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
 from __future__ import absolute_import
 
 import ast
+import curses
 import inspect
 import keyword
 import linecache
@@ -27,7 +28,14 @@ def isast(v):
     return inspect.isclass(v) and issubclass(v, ast.AST)
 
 
-NOCOLOR = not os.isatty(2) or os.name == 'nt' or os.getenv('TERM', '')[:5] != 'xterm'
+NOCOLOR = True
+try:
+    curses.initscr()
+    curses.start_color()
+    NOCOLOR = curses.COLORS < 8
+    curses.endwin()
+except:
+    pass
 
 ENCODING = locale.getpreferredencoding()
 
