@@ -1,6 +1,6 @@
 # better-exceptions
 
-Pretty and more helpful exceptions in Python 2.x, automatically.
+Pretty and more helpful exceptions in Python, automatically.
 
 ![Example screenshot of exceptions](screenshot.png)
 
