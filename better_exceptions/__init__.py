@@ -7,7 +7,7 @@ Just `import better_exceptions` somewhere. It handles the rest.
  Author: Josh Junon
   Email: josh@junon.me
     URL: github.com/qix-/better-exceptions
-License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
+License: Copyright (c) 2017 Josh Junon, licensed under the MIT license
 """
 
 from __future__ import absolute_import
