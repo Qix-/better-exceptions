@@ -138,9 +138,11 @@ def get_relevant_values(source, frame, tree):
 
 
 def get_frame_information(frame):
-    function = inspect.getframeinfo(frame)[2]
-    filename = inspect.getsourcefile(frame)
-    lineno = frame.f_lineno
+    
+    frame_info = inspect.getframeinfo(frame)
+    filename = frame_info.filename
+    lineno = frame_info.lineno
+    function = frame_info.function
     source = linecache.getline(filename, lineno).strip()
 
     try:
