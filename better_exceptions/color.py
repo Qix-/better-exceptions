@@ -27,18 +27,15 @@ def get_terminfo_file():
             "/usr/share/terminfo"
             ]
 
+    subdirs = [
+            ('%0.2X' % ord(term[0])),
+            term[0]
+            ]
+
     f = None
     for terminfo_dir in terminfo_dirs:
-        terminfo_path = os.path.join(terminfo_dir, ('%0.2X' % ord(term[0])), term)
-        try:
-            f = open(terminfo_path, 'rb')
-            break
-        except IOError as e:
-            if e.errno != errno.ENOENT:
-                raise
-
-            terminfo_path = os.path.join(terminfo_dir, term[0], term)
-
+        for subdir in subdirs:
+            terminfo_path = os.path.join(terminfo_dir, subdir, term)
             try:
                 f = open(terminfo_path, 'rb')
                 break
