@@ -13,4 +13,7 @@ setup(
     download_url = 'https://github.com/qix-/better-exceptions/archive/{}.tar.gz'.format(VERSION),
     keywords = ['pretty', 'better', 'exceptions', 'exception', 'error', 'local', 'debug', 'debugging', 'locals'],
     classifiers = [],
+    extras_require = {
+        'win32': 'colorama'
+    }
 )

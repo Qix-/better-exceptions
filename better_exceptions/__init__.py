@@ -23,19 +23,12 @@ import re
 import sys
 import traceback
 
+from better_exceptions.color import STREAM, SUPPORTS_COLOR
+
 
 def isast(v):
     return inspect.isclass(v) and issubclass(v, ast.AST)
 
-
-NOCOLOR = True
-try:
-    curses.initscr()
-    curses.start_color()
-    NOCOLOR = curses.COLORS < 8
-    curses.endwin()
-except:
-    pass
 
 ENCODING = locale.getpreferredencoding()
 
@@ -60,7 +53,7 @@ THEME = {
     'keyword': lambda s: '\x1b[33;1m{}\x1b[m'.format(s),
     'builtin': lambda s: '\x1b[35;1m{}\x1b[m'.format(s),
     'literal': lambda s: '\x1b[31m{}\x1b[m'.format(s),
-    'inspect': lambda s: s if NOCOLOR else u'\x1b[36m{}\x1b[m'.format(s),
+    'inspect': lambda s: s if not SUPPORTS_COLOR else u'\x1b[36m{}\x1b[m'.format(s),
 }
 
 MAX_LENGTH = 128
@@ -74,7 +67,7 @@ def colorize_comment(source):
 
 
 def colorize_tree(tree, source):
-    if NOCOLOR:
+    if not SUPPORTS_COLOR:
         # quick fail
         return source
 
@@ -201,13 +194,13 @@ def format_traceback(tb=None):
     return ''.join(lines), final_source
 
 
-def write_stderr(data):
+def write_stream(data):
     data = data.encode(ENCODING)
 
     if sys.version_info[0] < 3:
-        sys.stderr.write(data)
+        STREAM.write(data)
     else:
-        sys.stderr.buffer.write(data)
+        STREAM.buffer.write(data)
 
 
 def excepthook(exc, value, tb):
@@ -218,7 +211,7 @@ def excepthook(exc, value, tb):
     title = traceback.format_exception_only(exc, value)
 
     full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, title[0].strip())
-    write_stderr(full_trace)
+    write_stream(full_trace)
 
 
 sys.excepthook = excepthook
