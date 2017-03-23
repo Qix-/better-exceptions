@@ -13,7 +13,6 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT licens
 from __future__ import absolute_import
 
 import ast
-import curses
 import inspect
 import keyword
 import linecache
