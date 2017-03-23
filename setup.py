@@ -14,6 +14,6 @@ setup(
     keywords = ['pretty', 'better', 'exceptions', 'exception', 'error', 'local', 'debug', 'debugging', 'locals'],
     classifiers = [],
     extras_require = {
-        'win32': 'colorama'
+        ':sys_platform=="win32"': ['colorama']
     }
 )
