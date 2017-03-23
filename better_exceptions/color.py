@@ -21,10 +21,14 @@ def get_terminfo_file():
         return None
 
     terminfo_dirs = [
-            os.path.expanduser("~/.terminfo"),
-            "/etc/terminfo",
-            "/lib/terminfo",
-            "/usr/share/terminfo"
+            os.path.expanduser('~/.terminfo'),
+            '/etc/terminfo',
+            '/lib/terminfo',
+            '/usr/share/terminfo',
+            '/usr/lib/terminfo',
+            '/usr/share/lib/terminfo',
+            '/usr/local/lib/terminfo',
+            '/usr/local/share/terminfo'
             ]
 
     subdirs = [
