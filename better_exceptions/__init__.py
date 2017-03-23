@@ -137,9 +137,8 @@ def get_relevant_values(source, frame, tree):
     return values
 
 
-def get_frame_information(frame):
-    
-    frame_info = inspect.getframeinfo(frame)
+def get_traceback_information(tb):
+    frame_info = inspect.getframeinfo(tb)
     filename = frame_info.filename
     lineno = frame_info.lineno
     function = frame_info.function
@@ -150,14 +149,14 @@ def get_frame_information(frame):
     except SyntaxError:
         return filename, lineno, function, source, source, []
 
-    relevant_values = get_relevant_values(source, frame, tree)
+    relevant_values = get_relevant_values(source, tb.tb_frame, tree)
     color_source = colorize_tree(tree, source)
 
     return filename, lineno, function, source, color_source, relevant_values
 
 
-def format_frame(frame):
-    filename, lineno, function, source, color_source, relevant_values = get_frame_information(frame)
+def format_traceback_frame(tb):
+    filename, lineno, function, source, color_source, relevant_values = get_traceback_information(tb)
 
     lines = [color_source]
     for i in reversed(range(len(relevant_values))):
@@ -185,7 +184,7 @@ def format_traceback(tb=None):
 
     frames = []
     while tb:
-        formatted, colored = format_frame(tb.tb_frame)
+        formatted, colored = format_traceback_frame(tb)
         final_source = colored
         frames.append(formatted)
         tb = tb.tb_next
