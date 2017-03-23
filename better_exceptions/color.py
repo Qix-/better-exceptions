@@ -20,21 +20,31 @@ def get_terminfo_file():
     if term is None:
         return None
 
-    terminfo_path = os.path.join('/usr/share/terminfo', ('%0.2X' % ord(term[0])), term)
-    try:
-        f = open(terminfo_path, 'rb')
-    except IOError as e:
-        if e.errno != errno.ENOENT:
-            raise
+    terminfo_dirs = [
+            os.path.expanduser("~/.terminfo"),
+            "/etc/terminfo",
+            "/lib/terminfo",
+            "/usr/share/terminfo"
+            ]
 
-        terminfo_path = os.path.join('/usr/share/terminfo', term[0], term)
-
+    f = None
+    for terminfo_dir in terminfo_dirs:
+        terminfo_path = os.path.join(terminfo_dir, ('%0.2X' % ord(term[0])), term)
         try:
             f = open(terminfo_path, 'rb')
+            break
         except IOError as e:
             if e.errno != errno.ENOENT:
                 raise
-            return None
+
+            terminfo_path = os.path.join(terminfo_dir, term[0], term)
+
+            try:
+                f = open(terminfo_path, 'rb')
+                break
+            except IOError as e:
+                if e.errno != errno.ENOENT:
+                    raise
 
     return f
 
