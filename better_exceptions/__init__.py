@@ -151,6 +151,8 @@ def get_string_source():
     import platform
     import shlex
 
+    # import pdb; pdb.set_trace()
+
     cmdline = None
     if platform.system() == 'Windows':
         # TODO use winapi to obtain the command line
@@ -173,11 +175,12 @@ def get_string_source():
     cmdline = cmdline.decode('utf-8')
     cmdline = shlex.split(cmdline)
     extra_args = sys.argv[1:]
-    if cmdline[-len(extra_args):] != extra_args:
-        # we can't rely on the output to be correct; fail!
-        return ''
+    if len(extra_args) > 0:
+        if cmdline[-len(extra_args):] != extra_args:
+            # we can't rely on the output to be correct; fail!
+            return ''
 
-    cmdline = cmdline[1:-len(extra_args)]
+        cmdline = cmdline[1:-len(extra_args)]
 
     skip = 1
     for a in cmdline:
