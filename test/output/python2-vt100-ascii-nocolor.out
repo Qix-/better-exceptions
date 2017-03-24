@@ -78,7 +78,10 @@ AssertionError
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-AssertionError
+    [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+    [36m                          |             -> 5[m
+    [36m                          -> 5[m
+AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
 
 
 

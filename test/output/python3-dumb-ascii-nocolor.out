@@ -80,7 +80,10 @@ AssertionError
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-AssertionError
+    import better_exceptions; a = 5; assert a > 10 # this should work fine
+                              |             -> 5
+                              -> 5
+AssertionError: import better_exceptions; a = 5; assert a > 10 # this should work fine
 
 
 
