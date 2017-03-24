@@ -11,6 +11,7 @@ License: Copyright (c) 2017 Josh Junon, licensed under the MIT license
 """
 
 from __future__ import absolute_import
+from __future__ import print_function
 
 import ast
 import inspect
@@ -23,6 +24,7 @@ import sys
 import traceback
 
 from better_exceptions.color import STREAM, SUPPORTS_COLOR
+from better_exceptions.repl import interact, get_repl
 
 
 def isast(v):
@@ -142,7 +144,15 @@ def get_traceback_information(tb):
     filename = frame_info.filename
     lineno = frame_info.lineno
     function = frame_info.function
-    source = linecache.getline(filename, lineno).strip()
+
+    repl = get_repl()
+    if repl is not None and filename in repl.entries:
+        _, filename, source = repl.entries[filename]
+        source = source.replace('\r\n', '\n').split('\n')[lineno - 1]
+    else:
+        source = linecache.getline(filename, lineno)
+
+    source = source.strip()
 
     try:
         tree = ast.parse(source, mode='exec')
@@ -215,3 +225,9 @@ def excepthook(exc, value, tb):
 
 
 sys.excepthook = excepthook
+
+
+if hasattr(sys, 'ps1'):
+    print('WARNING: better_exceptions will not inspect code from the command line\n'
+          '         using: `python -m better_exceptions\'. Otherwise, only code\n'
+          '         loaded from files will be inspected!', file=sys.stderr)
