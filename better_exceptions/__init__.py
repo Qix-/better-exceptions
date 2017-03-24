@@ -80,9 +80,12 @@ def colorize_tree(tree, source):
 
     def append(offset, node, s, theme):
         begin_col = node.col_offset
-        chunks.append(source[offset:begin_col])
+        src_chunk = source[offset:begin_col]
+        chunks.append(src_chunk)
         chunks.append(THEME[theme](s))
         return begin_col + len(s)
+
+    displayed_nodes = []
 
     for i in range(nnodes):
         node = nodes[i]
@@ -90,20 +93,24 @@ def colorize_tree(tree, source):
         nodename = nodecls.__name__
 
         if 'col_offset' not in dir(node):
-            # this would probably benefit from using the `parser` module in the future...
             continue
 
         if nodecls in AST_ELEMENTS['keywords']:
-            offset = append(offset, node, nodename.lower(), 'keyword')
+            displayed_nodes.append((node, nodename.lower(), 'keyword'))
 
         if nodecls == ast.Name and node.id in AST_ELEMENTS['builtins']:
-            offset = append(offset, node, node.id, 'builtin')
+            displayed_nodes.append((node, node.id, 'builtin'))
 
         if nodecls == ast.Str:
-            offset = append(offset, node, "'{}'".format(node.s), 'literal')
+            displayed_nodes.append((node, "'{}'".format(node.s), 'literal'))
 
         if nodecls == ast.Num:
-            offset = append(offset, node, str(node.n), 'literal')
+            displayed_nodes.append((node, str(node.n), 'literal'))
+
+    displayed_nodes.sort(key=lambda elem: elem[0].col_offset)
+
+    for dn in displayed_nodes:
+        offset = append(offset, *dn)
 
     chunks.append(source[offset:])
     return colorize_comment(''.join(chunks))
