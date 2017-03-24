@@ -3,6 +3,19 @@ set -e
 
 [ -z "${BETEXC_PYTHON}" ] && export BETEXC_PYTHON=python
 
-TEST_STR='import better_exceptions; a = 5; assert a > 10 # this should work fine'
+function test_str {
+	echo -e "\n${1}\n"
 
-"${BETEXC_PYTHON}" -c "${TEST_STR}" these extra arguments should be removed and should not show up 'in' the output
+	# first, test with regular args
+	"${BETEXC_PYTHON}" -c "${@}" || true
+
+	echo ''
+
+	# now test with a condensed argument
+	cmd="${1}"
+	shift
+	"${BETEXC_PYTHON}" -c"$cmd" "${@}" || true
+}
+
+test_str 'import better_exceptions; a = 5; assert a > 10 # this should work fine' these extra arguments should be removed and should not show up 'in' the output
+test_str 'from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False'
