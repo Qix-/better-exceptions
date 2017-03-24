@@ -170,6 +170,7 @@ def get_string_source():
         # current system doesn't have a way to get the command line
         return ''
 
+    cmdline = cmdline.decode('utf-8')
     cmdline = shlex.split(cmdline)
     extra_args = sys.argv[1:]
     if cmdline[-len(extra_args):] != extra_args:
