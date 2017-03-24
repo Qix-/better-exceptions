@@ -255,16 +255,20 @@ def format_traceback_frame(tb):
 
 
 def format_traceback(tb=None):
+    omit_last = False
     if not tb:
         try:
             raise Exception()
         except:
+            omit_last = True
             _, _, tb = sys.exc_info()
-            tb = tb.tb_next
 
     frames = []
     final_source = ''
     while tb:
+        if omit_last and not tb.tb_next:
+            break
+
         formatted, colored = format_traceback_frame(tb)
         final_source = colored
         frames.append(formatted)
