@@ -260,6 +260,7 @@ def format_traceback(tb=None):
             raise Exception()
         except:
             _, _, tb = sys.exc_info()
+            tb = tb.tb_next
 
     frames = []
     while tb:
