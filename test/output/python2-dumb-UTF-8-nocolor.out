@@ -97,19 +97,37 @@ from __future__ import print_function; import better_exceptions; a = "why hello 
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; import better_exceptions; a = "why hello there" ; print(a); assert False
-                                                                     │                             └ 'why hello there'
+    from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+                                                                     │                            └ 'why hello there'
                                                                      └ 'why hello there'
-AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there" ; print(a); assert False
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 why hello there
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; import better_exceptions; a = "why hello there" ; print(a); assert False
-                                                                     │                             └ 'why hello there'
+    from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+                                                                     │                            └ 'why hello there'
                                                                      └ 'why hello there'
-AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there" ; print(a); assert False
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 why hello there
+
+from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+                                                                     │                                                 └ 'why     hello             there'
+                                                                     └ 'why     hello             there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+why     hello             there
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+                                                                     │                                                 └ 'why     hello             there'
+                                                                     └ 'why     hello             there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+why     hello             there
 
 
 

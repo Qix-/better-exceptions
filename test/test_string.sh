@@ -19,3 +19,4 @@ function test_str {
 
 test_str 'import better_exceptions; a = 5; assert a > 10 # this should work fine' these extra arguments should be removed and should not show up 'in' the output
 test_str 'from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False'
+test_str 'from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False'

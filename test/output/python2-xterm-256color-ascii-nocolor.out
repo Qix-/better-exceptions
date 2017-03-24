@@ -97,19 +97,37 @@ from __future__ import print_function; import better_exceptions; a = "why hello 
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 |                             -> 'why hello there'[m
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 |                            -> 'why hello there'[m
     [36m                                                                 -> 'why hello there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
 why hello there
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 |                             -> 'why hello there'[m
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 |                            -> 'why hello there'[m
     [36m                                                                 -> 'why hello there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
 why hello there
+
+from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 |                                                 -> 'why     hello             there'[m
+    [36m                                                                 -> 'why     hello             there'[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+why     hello             there
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 |                                                 -> 'why     hello             there'[m
+    [36m                                                                 -> 'why     hello             there'[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+why     hello             there
 
 
 
