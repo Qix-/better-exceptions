@@ -43,6 +43,7 @@ except UnicodeEncodeError:
     CAP_CHAR = '->'
 
 COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
+CMDLINE_REGXP = re.compile(r'(?:([\'"])(?:\\.|.)*(?:\1))|([^\t ]+)')
 
 AST_ELEMENTS = {
     'builtins': __builtins__.keys(),
@@ -146,10 +147,13 @@ def get_relevant_values(source, frame, tree):
     return values
 
 
+def split_cmdline(cmdline):
+    return [m.group(0) for m in CMDLINE_REGXP.finditer(cmdline)]
+
+
 def get_string_source():
     import os
     import platform
-    import shlex
 
     # import pdb; pdb.set_trace()
 
@@ -172,8 +176,9 @@ def get_string_source():
         # current system doesn't have a way to get the command line
         return ''
 
-    cmdline = cmdline.decode('utf-8')
-    cmdline = shlex.split(cmdline)
+    cmdline = cmdline.decode('utf-8').strip()
+    cmdline = split_cmdline(cmdline)
+
     extra_args = sys.argv[1:]
     if len(extra_args) > 0:
         if cmdline[-len(extra_args):] != extra_args:
@@ -182,11 +187,17 @@ def get_string_source():
 
         cmdline = cmdline[1:-len(extra_args)]
 
-    skip = 1
-    for a in cmdline:
+    skip = 0
+    for i in range(len(cmdline)):
+        a = cmdline[i].strip()
         if not a.startswith('-c'):
             skip += 1
         else:
+            a = a[2:].strip()
+            if len(a) > 0:
+                cmdline[i] = a
+            else:
+                skip += 1
             break
 
     cmdline = cmdline[skip:]
