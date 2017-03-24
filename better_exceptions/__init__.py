@@ -263,6 +263,7 @@ def format_traceback(tb=None):
             tb = tb.tb_next
 
     frames = []
+    final_source = ''
     while tb:
         formatted, colored = format_traceback_frame(tb)
         final_source = colored
