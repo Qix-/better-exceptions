@@ -36,10 +36,6 @@ spawn python3 -m better_exceptions -q
 ... 
 >>> foo(1)
 Traceback (most recent call last):
-  File "/removed/for/test/purposes.ext", line 91, in runcode
-    [35;1mexec[m(code, self.locals)
-    [36m     │     └ <better_exceptions.repl.BetterExceptionsConsole object at 0xDEADBEEF>[m
-    [36m     └ <code object <module> at 0xDEADBEEF, file "@@@REPL@@@4", line 1>[m
   File "<console>", line 1, in <module>
     foo([31m1[m)
     [36m└ <function foo at 0xDEADBEEF>[m
@@ -64,10 +60,6 @@ WARNING: better_exceptions will not inspect code from the command line
 ... 
 >>> foo(1)
 Traceback (most recent call last):
-  File "/removed/for/test/purposes.ext", line 91, in runcode
-    [35;1mexec[m(code, self.locals)
-    [36m     │     └ <__main__.QuietConsole object at 0xDEADBEEF>[m
-    [36m     └ <code object <module> at 0xDEADBEEF, file "<console>", line 1>[m
   File "<console>", line 1, in <module>
   File "<console>", line 2, in foo
 AssertionError

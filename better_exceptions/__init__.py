@@ -262,6 +262,7 @@ def format_traceback(tb=None):
         except:
             omit_last = True
             _, _, tb = sys.exc_info()
+            assert tb is not None
 
     frames = []
     final_source = ''
@@ -270,8 +271,12 @@ def format_traceback(tb=None):
             break
 
         formatted, colored = format_traceback_frame(tb)
-        final_source = colored
-        frames.append(formatted)
+
+        # special case to ignore runcode() here.
+        if not (os.path.basename(formatted[0]) == 'code.py' and formatted[2] == 'runcode'):
+            final_source = colored
+            frames.append(formatted)
+
         tb = tb.tb_next
 
     lines = traceback.format_list(frames)

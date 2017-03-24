@@ -37,10 +37,6 @@ spawn python2 -m better_exceptions -q
 ... 
 >>> foo(1)
 Traceback (most recent call last):
-  File "/removed/for/test/purposes.ext", line 103, in runcode
-    [33;1mexec[m code in self.locals
-    [36m     |       -> <better_exceptions.repl.BetterExceptionsConsole object at 0xDEADBEEF>[m
-    [36m     -> <code object <module> at 0xDEADBEEF, file "@@@REPL@@@4", line 1>[m
   File "<console>", line 1, in <module>
     foo([31m1[m)
     [36m-> <function foo at 0xDEADBEEF>[m
