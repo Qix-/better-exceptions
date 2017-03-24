@@ -5,4 +5,4 @@ set -e
 
 TEST_STR='import better_exceptions; a = 5; assert a > 10'
 
-"${BETEXC_PYTHON}" -c "${TEST_STR}"
+"${BETEXC_PYTHON}" -c "${TEST_STR}" these extra arguments should be removed and should not show up 'in' the output

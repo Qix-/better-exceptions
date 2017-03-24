@@ -139,6 +139,51 @@ def get_relevant_values(source, frame, tree):
     return values
 
 
+def get_string_source():
+    import os
+    import platform
+    import shlex
+
+    cmdline = None
+    if platform.system() == 'Windows':
+        # TODO use winapi to obtain the command line
+        return ''
+    elif platform.system() == 'Linux':
+        # TODO try to use proc
+        pass
+
+    if cmdline is None and os.name == 'posix':
+        from subprocess import CalledProcessError, check_output as spawn
+
+        try:
+            cmdline = spawn(['ps', '-ww', '-p', str(os.getpid()), '-o', 'command='])
+        except CalledProcessError:
+            return ''
+    else:
+        # current system doesn't have a way to get the command line
+        return ''
+
+    cmdline = shlex.split(cmdline)
+    extra_args = sys.argv[1:]
+    if cmdline[-len(extra_args):] != extra_args:
+        # we can't rely on the output to be correct; fail!
+        return ''
+
+    cmdline = cmdline[1:-len(extra_args)]
+
+    skip = 1
+    for a in cmdline:
+        if not a.startswith('-c'):
+            skip += 1
+        else:
+            break
+
+    cmdline = cmdline[skip:]
+    source = ' '.join(cmdline)
+
+    return source
+
+
 def get_traceback_information(tb):
     frame_info = inspect.getframeinfo(tb)
     filename = frame_info.filename
@@ -149,6 +194,8 @@ def get_traceback_information(tb):
     if repl is not None and filename in repl.entries:
         _, filename, source = repl.entries[filename]
         source = source.replace('\r\n', '\n').split('\n')[lineno - 1]
+    elif filename == '<string>':
+        source = get_string_source()
     else:
         source = linecache.getline(filename, lineno)
 
