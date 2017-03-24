@@ -40,7 +40,7 @@ function test_all {
 }
 
 for encoding in ascii "UTF-8"; do
-	for term in "$TERM" vt100 dumb; do
+	for term in xterm vt100 dumb; do
 		for color in 0 1; do
 			for pv in 2 3; do
 				[[ $color == "1" ]] && color_filename="color" || color_filename="nocolor"
