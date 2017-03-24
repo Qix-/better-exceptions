@@ -76,12 +76,40 @@ AssertionError
 ./test/test_string.sh
 
 
+
+import better_exceptions; a = 5; assert a > 10 # this should work fine
+
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
     [36m                          │             └ 5[m
     [36m                          └ 5[m
 AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+    [36m                          │             └ 5[m
+    [36m                          └ 5[m
+AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+
+from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 │                             └ 'why hello there'[m
+    [36m                                                                 └ 'why hello there'[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+why hello there
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    [36m                                                                 │                             └ 'why hello there'[m
+    [36m                                                                 └ 'why hello there'[m
+AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m ; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+why hello there
 
 
 
