@@ -1,0 +1,84 @@
+python2 test/test.py
+
+
+Traceback (most recent call last):
+  File "test/test.py", line 16, in <module>
+    shallow(bar, [31m15[m)
+    [36m│       └ 2[m
+    [36m└ <function shallow at 0xDEADBEEF>[m
+  File "test/test.py", line 7, in shallow
+    deep(a + b)
+    [36m│    │   └ 15[m
+    [36m│    └ 2[m
+    [36m└ <function deep at 0xDEADBEEF>[m
+  File "test/test.py", line 12, in deep
+    [33;1massert[m val > [31m10[m and foo == [31m60[m
+    [36m       │            └ 52[m
+    [36m       └ 17[m
+AssertionError: [33;1massert[m val > [31m10[m and foo == [31m60[m
+
+
+
+python2 test/test_color.py
+
+
+True
+
+
+
+./test/test_interactive.sh
+
+
+spawn python2 -m better_exceptions -q
+
+>>> import better_exceptions
+>>> def foo(a):
+...     assert a > 10
+... 
+>>> foo(1)
+Traceback (most recent call last):
+  File "/removed/for/test/purposes.ext", line 103, in runcode
+    [33;1mexec[m code in self.locals
+    [36m     │       └ <better_exceptions.repl.BetterExceptionsConsole object at 0xDEADBEEF>[m
+    [36m     └ <code object <module> at 0xDEADBEEF, file "@@@REPL@@@4", line 1>[m
+  File "<console>", line 1, in <module>
+    foo([31m1[m)
+    [36m└ <function foo at 0xDEADBEEF>[m
+  File "<console>", line 2, in foo
+    [33;1massert[m a > [31m10[m
+    [36m       └ 1[m
+AssertionError: [33;1massert[m a > [31m10[m
+>>> exit()
+
+
+
+./test/test_interactive_raw.sh
+
+
+spawn python2 -m test_util.quiet_console
+
+>>> import better_exceptions
+WARNING: better_exceptions will not inspect code from the command line
+         using: `python -m better_exceptions'. Otherwise, only code
+         loaded from files will be inspected!
+>>> def foo(a):
+...     assert a > 10
+... 
+>>> foo(1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "<console>", line 2, in foo
+AssertionError
+>>> exit()
+
+
+
+./test/test_string.sh
+
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+AssertionError
+
+
+

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "test/test.py", line 16, in <module>
+    shallow(bar, [31m15[m)
+    [36m│       └ 2[m
+    [36m└ <function shallow at 0x104f7f6e0>[m
+  File "test/test.py", line 7, in shallow
+    deep(a + b)
+    [36m│    │   └ 15[m
+    [36m│    └ 2[m
+    [36m└ <function deep at 0x104f7f758>[m
+  File "test/test.py", line 12, in deep
+    [33;1massert[m val > [31m10[m and foo == [31m60[m
+    [36m       │            └ 52[m
+    [36m       └ 17[m
+AssertionError: [33;1massert[m val > [31m10[m and foo == [31m60[m
