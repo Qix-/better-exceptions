@@ -2,9 +2,8 @@ language: python
 
 os:
   - linux
-  - osx
+#  - osx # travis doesn't appear to support python on OSX as of right now...
 python:
-  - '2.6'
   - '2.7'
   - '3.3'
   - '3.4'
@@ -18,3 +17,7 @@ install:
   - pip install -e .
 script:
   - ./test_all.sh
+addons:
+  apt:
+    packages:
+    - expect
