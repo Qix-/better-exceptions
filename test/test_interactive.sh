@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+[ -z "${BETEXC_PYTHON}" ] && export BETEXC_PYTHON=python
+
 /usr/bin/expect -f - <<EOF
 spawn ${BETEXC_PYTHON} -m better_exceptions -q
 expect ">>> "

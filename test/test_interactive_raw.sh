@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+[ -z "${BETEXC_PYTHON}" ] && export BETEXC_PYTHON=python
+
 /usr/bin/expect -f - <<EOF
 spawn ${BETEXC_PYTHON} -m test_util.quiet_console
 expect ">>> "
