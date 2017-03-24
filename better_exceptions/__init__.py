@@ -43,7 +43,7 @@ except UnicodeEncodeError:
     CAP_CHAR = '->'
 
 COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
-CMDLINE_REGXP = re.compile(r'(?:([\'"])(?:\\.|.)*(?:\1))|([^\t ]+)')
+CMDLINE_REGXP = re.compile(r'(?:[^\t ]*([\'"])(?:\\.|.)*(?:\1))[^\t ]*|([^\t ]+)')
 
 AST_ELEMENTS = {
     'builtins': __builtins__.keys(),
