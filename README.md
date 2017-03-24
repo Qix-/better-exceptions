@@ -1,4 +1,4 @@
-# better-exceptions
+# better-exceptions [![Travis](https://img.shields.io/travis/Qix-/better-exceptions.svg?style=flat-square)](https://travis-ci.org/Qix-/better-exceptions)
 
 Pretty and more helpful exceptions in Python, automatically.
 
