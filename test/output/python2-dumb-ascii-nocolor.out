@@ -48,27 +48,6 @@ AssertionError: assert a > 10
 
 
 
-./test/test_interactive_raw.sh
-
-
-spawn python2 -m test_util.quiet_console
-
->>> import better_exceptions
-WARNING: better_exceptions will not inspect code from the command line
-         using: `python -m better_exceptions'. Otherwise, only code
-         loaded from files will be inspected!
->>> def foo(a):
-...     assert a > 10
-... 
->>> foo(1)
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-  File "<console>", line 2, in foo
-AssertionError
->>> exit()
-
-
-
 ./test/test_string.sh
 
 
