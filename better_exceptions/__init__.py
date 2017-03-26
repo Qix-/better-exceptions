@@ -308,6 +308,6 @@ sys.excepthook = excepthook
 
 
 if hasattr(sys, 'ps1'):
-    print('WARNING: better_exceptions will not inspect code from the command line\n'
-          '         using: `python -m better_exceptions\'. Otherwise, only code\n'
+    print('WARNING: better_exceptions will only inspect code from the command line\n'
+          '         when using: `python -m better_exceptions\'. Otherwise, only code\n'
           '         loaded from files will be inspected!', file=sys.stderr)
