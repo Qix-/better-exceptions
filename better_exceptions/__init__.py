@@ -23,7 +23,7 @@ import re
 import sys
 import traceback
 
-from better_exceptions.color import STREAM, SUPPORTS_COLOR
+from better_exceptions.color import STREAM, SUPPORTS_COLOR, SHOULD_ENCODE
 from better_exceptions.repl import interact, get_repl
 
 
@@ -285,7 +285,8 @@ def format_traceback(tb=None):
 
 
 def write_stream(data):
-    data = data.encode(ENCODING)
+    if SHOULD_ENCODE:
+        data = data.encode(ENCODING)
 
     if sys.version_info[0] < 3:
         STREAM.write(data)

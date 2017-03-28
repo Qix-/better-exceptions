@@ -12,7 +12,7 @@ import sys
 
 STREAM = sys.stderr
 SUPPORTS_COLOR = False
-
+SHOULD_ENCODE = True
 
 def get_terminfo_file():
     term = os.getenv('TERM', None)
@@ -56,6 +56,7 @@ if os.name == 'nt':
     init_colorama(wrap=False)
     STREAM = AnsiToWin32(sys.stderr).stream
     SUPPORTS_COLOR = True
+    SHOULD_ENCODE = False
 else:
     if os.getenv('FORCE_COLOR', None) == '1':
         SUPPORTS_COLOR = True
