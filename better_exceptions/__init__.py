@@ -46,7 +46,7 @@ COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\
 CMDLINE_REGXP = re.compile(r'(?:[^\t ]*([\'"])(?:\\.|.)*(?:\1))[^\t ]*|([^\t ]+)')
 
 AST_ELEMENTS = {
-    'builtins': __builtins__.keys(),
+    'builtins': __builtins__.keys() if type(__builtins__) is dict else dir(__builtins__),
     'keywords': [getattr(ast, cls) for cls in dir(ast) if keyword.iskeyword(cls.lower()) and isast(getattr(ast, cls))],
 }
 
