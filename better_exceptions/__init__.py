@@ -57,6 +57,7 @@ THEME = {
     'keyword': lambda s: '\x1b[33;1m{}\x1b[m'.format(s),
     'builtin': lambda s: '\x1b[35;1m{}\x1b[m'.format(s),
     'literal': lambda s: '\x1b[31m{}\x1b[m'.format(s),
+    'docstring': lambda s: s if not SUPPORTS_COLOR else '\x1b[2;32m{}\x1b[m'.format(s),
     'inspect': lambda s: s if not SUPPORTS_COLOR else u'\x1b[36m{}\x1b[m'.format(s),
 }
 
@@ -252,6 +253,16 @@ def format_traceback_frame(tb):
         lines.append(THEME['inspect'](line))
 
     formatted = '\n    '.join(lines)
+
+    fn = None
+    if function in tb.tb_frame.f_locals:
+        fn = tb.tb_frame.f_locals[function]
+    elif function in tb.tb_frame.f_globals:
+        fn = tb.tb_frame.f_globals[function]
+
+    if fn is not None and type(fn) == type(format_traceback_frame) and fn.__doc__ is not None:
+        docstring = THEME['docstring']('"""{}"""'.format(fn.__doc__.split('\n\n', 2)[0]))
+        formatted = u'{}\n    {}'.format(docstring, formatted)
 
     return (filename, lineno, function, formatted), color_source
 
