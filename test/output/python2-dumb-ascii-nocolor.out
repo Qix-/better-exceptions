@@ -106,3 +106,28 @@ why     hello             there
 
 
 
+python2 test/test_logging.py
+
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    -> <function bar3 at 0xDEADBEEF>
+  File "test/test_logging.py", line 32, in bar3
+    raise Exception('this is a test exception')
+Exception: this is a test exception
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    -> <function bar4 at 0xDEADBEEF>
+  File "test/test_logging.py", line 37, in bar4
+    assert baz == 90
+           -> 52
+AssertionError: assert baz == 90
+
+
+
+

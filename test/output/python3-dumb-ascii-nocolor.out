@@ -69,39 +69,64 @@ AssertionError: import better_exceptions; a = 5; assert a > 10 # this should wor
 
 from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 
-why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
                                                                      |                            -> 'why hello there'
                                                                      -> 'why hello there'
 AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+why hello there
 
-why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
                                                                      |                            -> 'why hello there'
                                                                      -> 'why hello there'
 AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+why hello there
 
 from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
 
-why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
                                                                      |                                                 -> 'why     hello             there'
                                                                      -> 'why     hello             there'
 AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+why     hello             there
 
-why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
                                                                      |                                                 -> 'why     hello             there'
                                                                      -> 'why     hello             there'
 AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+why     hello             there
+
+
+
+python3 test/test_logging.py
+
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    -> <function bar3 at 0xDEADBEEF>
+  File "test/test_logging.py", line 32, in bar3
+    raise Exception('this is a test exception')
+Exception: this is a test exception
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    -> <function bar4 at 0xDEADBEEF>
+  File "test/test_logging.py", line 37, in bar4
+    assert baz == 90
+           -> 52
+AssertionError: assert baz == 90
+
 
 
 

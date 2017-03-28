@@ -69,39 +69,64 @@ AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert
 
 from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 
-why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m False
     [36m                                                                 │                            └ 'why hello there'[m
     [36m                                                                 └ 'why hello there'[m
 AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m False
+why hello there
 
-why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m False
     [36m                                                                 │                            └ 'why hello there'[m
     [36m                                                                 └ 'why hello there'[m
 AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m False
+why hello there
 
 from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
 
-why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m False
     [36m                                                                 │                                                 └ 'why     hello             there'[m
     [36m                                                                 └ 'why     hello             there'[m
 AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m False
+why     hello             there
 
-why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m False
     [36m                                                                 │                                                 └ 'why     hello             there'[m
     [36m                                                                 └ 'why     hello             there'[m
 AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m False
+why     hello             there
+
+
+
+python3 test/test_logging.py
+
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    [36m└ <function bar3 at 0xDEADBEEF>[m
+  File "test/test_logging.py", line 32, in bar3
+    [33;1mraise[m [35;1mException[m([31m'this is a test exception'[m)
+Exception: this is a test exception
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_logging.py", line 15, in foo
+    cb()
+    [36m└ <function bar4 at 0xDEADBEEF>[m
+  File "test/test_logging.py", line 37, in bar4
+    [33;1massert[m baz == [31m90[m
+    [36m       └ 52[m
+AssertionError: [33;1massert[m baz == [31m90[m
+
 
 
 
