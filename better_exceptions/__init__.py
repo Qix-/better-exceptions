@@ -18,12 +18,14 @@ import inspect
 import keyword
 import linecache
 import locale
+import logging
 import os
 import re
 import sys
 import traceback
 
 from better_exceptions.color import STREAM, SUPPORTS_COLOR
+from better_exceptions.log import BetExcLogger, patch as patch_logging
 from better_exceptions.repl import interact, get_repl
 
 
@@ -293,7 +295,7 @@ def write_stream(data):
         STREAM.buffer.write(data)
 
 
-def excepthook(exc, value, tb):
+def format_exception(exc, value, tb):
     formatted, colored_source = format_traceback(tb)
 
     if not str(value) and exc is AssertionError:
@@ -301,10 +303,20 @@ def excepthook(exc, value, tb):
     title = traceback.format_exception_only(exc, value)
 
     full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, title[0].strip())
-    write_stream(full_trace)
+
+    return full_trace
+
+
+def excepthook(exc, value, tb):
+    formatted = format_exception(exc, value, tb)
+    write_stream(formatted)
 
 
 sys.excepthook = excepthook
+
+
+logging.setLoggerClass(BetExcLogger)
+patch_logging()
 
 
 if hasattr(sys, 'ps1'):
