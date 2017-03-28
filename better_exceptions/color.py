@@ -59,7 +59,7 @@ if os.name == 'nt':
 else:
     if os.getenv('FORCE_COLOR', None) == '1':
         SUPPORTS_COLOR = True
-    else:
+    elif os.isatty(2):
         f = get_terminfo_file()
         if f is not None:
             with f:

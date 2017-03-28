@@ -3,26 +3,26 @@ python2 test/test.py
 
 Traceback (most recent call last):
   File "test/test.py", line 16, in <module>
-    shallow(bar, [31m15[m)
-    [36m│       └ 2[m
-    [36m└ <function shallow at 0xDEADBEEF>[m
+    shallow(bar, 15)
+    │       └ 2
+    └ <function shallow at 0xDEADBEEF>
   File "test/test.py", line 7, in shallow
     deep(a + b)
-    [36m│    │   └ 15[m
-    [36m│    └ 2[m
-    [36m└ <function deep at 0xDEADBEEF>[m
+    │    │   └ 15
+    │    └ 2
+    └ <function deep at 0xDEADBEEF>
   File "test/test.py", line 12, in deep
-    [33;1massert[m val > [31m10[m and foo == [31m60[m
-    [36m       │            └ 52[m
-    [36m       └ 17[m
-AssertionError: [33;1massert[m val > [31m10[m and foo == [31m60[m
+    assert val > 10 and foo == 60
+           │            └ 52
+           └ 17
+AssertionError: assert val > 10 and foo == 60
 
 
 
 python2 test/test_color.py
 
 
-True
+False
 
 
 
@@ -56,52 +56,52 @@ import better_exceptions; a = 5; assert a > 10 # this should work fine
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
-    [36m                          │             └ 5[m
-    [36m                          └ 5[m
-AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+    import better_exceptions; a = 5; assert a > 10 # this should work fine
+                              │             └ 5
+                              └ 5
+AssertionError: import better_exceptions; a = 5; assert a > 10 # this should work fine
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
-    [36m                          │             └ 5[m
-    [36m                          └ 5[m
-AssertionError: [33;1mimport[m better_exceptions; a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
+    import better_exceptions; a = 5; assert a > 10 # this should work fine
+                              │             └ 5
+                              └ 5
+AssertionError: import better_exceptions; a = 5; assert a > 10 # this should work fine
 
 from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 │                            └ 'why hello there'[m
-    [36m                                                                 └ 'why hello there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+                                                                     │                            └ 'why hello there'
+                                                                     └ 'why hello there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 why hello there
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 │                            └ 'why hello there'[m
-    [36m                                                                 └ 'why hello there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why hello there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
+                                                                     │                            └ 'why hello there'
+                                                                     └ 'why hello there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why hello there"; print(a); assert False
 why hello there
 
 from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 │                                                 └ 'why     hello             there'[m
-    [36m                                                                 └ 'why     hello             there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+                                                                     │                                                 └ 'why     hello             there'
+                                                                     └ 'why     hello             there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
 why     hello             there
 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-    from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
-    [36m                                                                 │                                                 └ 'why     hello             there'[m
-    [36m                                                                 └ 'why     hello             there'[m
-AssertionError: from __future__ import print_function; [33;1mimport[m better_exceptions; a = [31m'why     hello          '[m + [31m'   there'[m; [35;1mprint[m(a); [33;1massert[m [35;1mFalse[m
+    from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
+                                                                     │                                                 └ 'why     hello             there'
+                                                                     └ 'why     hello             there'
+AssertionError: from __future__ import print_function; import better_exceptions; a = "why     hello          " + "   there"; print(a); assert False
 why     hello             there
 
 
@@ -113,20 +113,20 @@ ERROR:__main__:callback failed
 Traceback (most recent call last):
   File "test/test_logging.py", line 15, in foo
     cb()
-    [36m└ <function bar3 at 0xDEADBEEF>[m
+    └ <function bar3 at 0xDEADBEEF>
   File "test/test_logging.py", line 32, in bar3
-    [33;1mraise[m [35;1mException[m([31m'this is a test exception'[m)
+    raise Exception('this is a test exception')
 Exception: this is a test exception
 
 ERROR:__main__:callback failed
 Traceback (most recent call last):
   File "test/test_logging.py", line 15, in foo
     cb()
-    [36m└ <function bar4 at 0xDEADBEEF>[m
+    └ <function bar4 at 0xDEADBEEF>
   File "test/test_logging.py", line 37, in bar4
-    [33;1massert[m baz == [31m90[m
-    [36m       └ 52[m
-AssertionError: [33;1massert[m baz == [31m90[m
+    assert baz == 90
+           └ 52
+AssertionError: assert baz == 90
 
 
 
