@@ -24,9 +24,9 @@ import re
 import sys
 import traceback
 
-from better_exceptions.color import STREAM, SUPPORTS_COLOR
-from better_exceptions.log import BetExcLogger, patch as patch_logging
-from better_exceptions.repl import interact, get_repl
+from .color import STREAM, SUPPORTS_COLOR
+from .log import BetExcLogger, patch as patch_logging
+from .repl import interact, get_repl
 
 
 def isast(v):
