@@ -23,6 +23,7 @@ import os
 import re
 import sys
 import traceback
+import codecs
 
 from better_exceptions.color import STREAM, SUPPORTS_COLOR
 from better_exceptions.log import BetExcLogger, patch as patch_logging
@@ -61,6 +62,32 @@ THEME = {
 }
 
 MAX_LENGTH = 128
+
+PY3 = sys.version_info[0] >= 3
+
+
+def _byte(val):
+    unicode_type = str if PY3 else unicode
+    if isinstance(val, unicode_type):
+        try:
+            return val.encode(ENCODING)
+        except UnicodeEncodeError:
+            if PY3:
+                return codecs.escape_decode(val)[0]
+            else:
+                return val.encode("unicode-escape").decode("string-escape")
+
+    return val
+
+
+def _unicode(val):
+    if isinstance(val, bytes):
+        try:
+            return val.decode(ENCODING)
+        except UnicodeDecodeError:
+            return val.decode("unicode-escape")
+
+    return val
 
 
 def colorize_comment(source):
@@ -248,10 +275,15 @@ def format_traceback_frame(tb):
         for pc in pipe_cols:
             line += (' ' * (pc - index)) + PIPE_CHAR
             index = pc + 1
+
+        if not PY3 and isinstance(val, str):
+            # In Python2 the Non-ASCII value will be the escaped string,
+            # use string-escape to decode the string to show the text in human way.
+            val = _unicode(val.decode("string-escape"))
+
         line += u'{}{} {}'.format((' ' * (col - index)), CAP_CHAR, val)
         lines.append(THEME['inspect'](line))
-
-    formatted = '\n    '.join(lines)
+    formatted = u'\n    '.join([_unicode(x) for x in lines])
 
     return (filename, lineno, function, formatted), color_source
 
@@ -287,7 +319,7 @@ def format_traceback(tb=None):
 
 
 def write_stream(data):
-    data = data.encode(ENCODING)
+    data = _byte(data)
 
     if sys.version_info[0] < 3:
         STREAM.write(data)
