@@ -26,6 +26,23 @@ True
 
 
 
+python2 test/test_encoding.py
+
+
+Traceback (most recent call last):
+  File "test/test_encoding.py", line 13, in <module>
+    div()
+    [36m└ <function div at 0xDEADBEEF>[m
+  File "test/test_encoding.py", line 10, in div
+    [33;1mreturn[m _deep([31m'天'[m)
+    [36m       └ <function _deep at 0xDEADBEEF>[m
+  File "test/test_encoding.py", line 7, in _deep
+    [33;1mreturn[m [31m1[m / val
+    [36m           └ '天'[m
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+
+
 ./test/test_interactive.sh
 
 
