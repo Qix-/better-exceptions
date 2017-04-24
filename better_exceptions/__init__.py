@@ -321,10 +321,10 @@ def format_traceback(tb=None):
 def write_stream(data):
     data = _byte(data)
 
-    if sys.version_info[0] < 3:
-        STREAM.write(data)
-    else:
+    if PY3:
         STREAM.buffer.write(data)
+    else:
+        STREAM.write(data)
 
 
 def format_exception(exc, value, tb):
