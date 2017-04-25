@@ -35,6 +35,7 @@ function test_all {
 	test_case "$BETEXC_PYTHON" "test/test.py"
 	test_case "$BETEXC_PYTHON" "test/test_color.py"
 	test_case "$BETEXC_PYTHON" "test/test_encoding.py"
+	test_case "$BETEXC_PYTHON" "test/test_long_text_encoding.py"
 	test_case "./test/test_interactive.sh"
 	# test_case "./test/test_interactive_raw.sh"
 	test_case "./test/test_string.sh"

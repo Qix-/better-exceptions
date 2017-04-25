@@ -279,7 +279,12 @@ def format_traceback_frame(tb):
         if not PY3 and isinstance(val, str):
             # In Python2 the Non-ASCII value will be the escaped string,
             # use string-escape to decode the string to show the text in human way.
-            val = _unicode(val.decode("string-escape"))
+            # If string is very long, the val will only contians part of the string,
+            # that will cause decode error, so we just decode the complete string
+            # which ends with quote.
+            if val.endswith(val[0]):
+                val = val.decode("string-escape")
+            val = _unicode(val)
 
         line += u'{}{} {}'.format((' ' * (col - index)), CAP_CHAR, val)
         lines.append(THEME['inspect'](line))
