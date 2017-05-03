@@ -7,7 +7,7 @@ from logging import Logger, StreamHandler
 
 def patch():
     import logging
-    from better_exceptions import format_exception
+    from . import format_exception
 
     logging_format_exception = lambda exc_info: format_exception(*exc_info)
 
