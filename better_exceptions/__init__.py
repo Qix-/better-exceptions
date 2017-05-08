@@ -106,7 +106,6 @@ def colorize_tree(tree, source):
 
     offset = 0
     nodes = [n for n in ast.walk(tree)]
-    nnodes = len(nodes)
 
     def append(offset, node, s, theme):
         begin_col = node.col_offset
@@ -117,8 +116,7 @@ def colorize_tree(tree, source):
 
     displayed_nodes = []
 
-    for i in range(nnodes):
-        node = nodes[i]
+    for node in nodes:
         nodecls = node.__class__
         nodename = nodecls.__name__
 

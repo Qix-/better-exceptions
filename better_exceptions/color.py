@@ -63,19 +63,19 @@ else:
         f = get_terminfo_file()
         if f is not None:
             with f:
-                 # f is a valid terminfo; seek and read!
-                 magic_number = struct.unpack('<h', f.read(2))[0]
+                # f is a valid terminfo; seek and read!
+                magic_number = struct.unpack('<h', f.read(2))[0]
 
-                 if magic_number == 0x11A:
-                     # the opened terminfo file is valid.
-                     offset = 2 + 10  # magic number + size section (the next thing we read from)
-                     offset += struct.unpack('<h', f.read(2))[0]  # skip over names section
-                     offset += struct.unpack('<h', f.read(2))[0]  # skip over bool section
-                     offset += offset % 2  # align to short boundary
-                     offset += 13 * 2  # maxColors is the 13th numeric value
+                if magic_number == 0x11A:
+                    # the opened terminfo file is valid.
+                    offset = 2 + 10  # magic number + size section (the next thing we read from)
+                    offset += struct.unpack('<h', f.read(2))[0]  # skip over names section
+                    offset += struct.unpack('<h', f.read(2))[0]  # skip over bool section
+                    offset += offset % 2  # align to short boundary
+                    offset += 13 * 2  # maxColors is the 13th numeric value
 
-                     f.seek(offset)
-                     max_colors = struct.unpack('<h', f.read(2))[0]
+                    f.seek(offset)
+                    max_colors = struct.unpack('<h', f.read(2))[0]
 
-                     if max_colors >= 8:
-                         SUPPORTS_COLOR = True
+                    if max_colors >= 8:
+                        SUPPORTS_COLOR = True
