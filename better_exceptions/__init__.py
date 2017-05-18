@@ -47,6 +47,7 @@ except UnicodeEncodeError:
 
 COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
 CMDLINE_REGXP = re.compile(r'(?:[^\t ]*([\'"])(?:\\.|.)*(?:\1))[^\t ]*|([^\t ]+)')
+FILE_LINE_REGXP = re.compile(r'^(\s+)File "(.*?)", line (\d+), (.*?)$', flags=re.MULTILINE)
 
 AST_ELEMENTS = {
     'builtins': __builtins__.keys() if type(__builtins__) is dict else dir(__builtins__),
@@ -62,6 +63,15 @@ THEME = {
 }
 
 MAX_LENGTH = 128
+
+#: Holds all available file line styles
+FILE_LINE_STYLES = {
+    'vi': r'\1File "\2 +\3", \4',
+    'emacs': r'\1File "\2 +\3", \4',
+    'colon': r'\1File "\2:\3", \4'
+}
+#: Holds the file line style to use
+FILE_LINE_STYLE = None
 
 PY3 = sys.version_info[0] >= 3
 
@@ -288,6 +298,16 @@ def format_traceback_frame(tb):
     return (filename, lineno, function, formatted), color_source
 
 
+def format_file_lines(lines):
+    if FILE_LINE_STYLE:
+        try:
+            return FILE_LINE_REGXP.sub(FILE_LINE_STYLES[FILE_LINE_STYLE], lines)
+        except KeyError:
+            raise ValueError('Unknown file line style "{0}". Use one of: {1}'.format(
+                FILE_LINE_STYLE, ', '.join(FILE_LINE_STYLES.keys())))
+    return lines
+
+
 def format_traceback(tb=None):
     omit_last = False
     if not tb:
@@ -314,8 +334,9 @@ def format_traceback(tb=None):
         tb = tb.tb_next
 
     lines = traceback.format_list(frames)
+    formatted_tb = format_file_lines(''.join(lines))
 
-    return ''.join(lines), final_source
+    return formatted_tb, final_source
 
 
 def write_stream(data):
