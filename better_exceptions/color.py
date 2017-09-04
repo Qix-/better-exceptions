@@ -9,8 +9,12 @@ import os
 import struct
 import sys
 
+from .context import PY3
+from .encoding import to_byte as _byte
+
 
 STREAM = sys.stderr
+SHOULD_ENCODE = True
 SUPPORTS_COLOR = False
 
 
@@ -50,11 +54,35 @@ def get_terminfo_file():
     return f
 
 
+class ProxyBufferStreamWrapper(object):
+
+    def __init__(self, wrapped):
+        self.__wrapped = wrapped
+
+    def __getattr__(self, name):
+        return getattr(self.__wrapped, name)
+
+    def write(self, text):
+        data = _byte(text)
+        self.__wrapped.buffer.write(data)
+
+
 if os.name == 'nt':
     from colorama import init as init_colorama, AnsiToWin32
 
     init_colorama(wrap=False)
-    STREAM = AnsiToWin32(sys.stderr).stream
+
+    stream = sys.stderr
+
+    if PY3:
+        # Colorama cannot work with bytes-string
+        # The stream is wrapped so that encoding of the stream is done after
+        # (once Colorama found ANSI codes and converted them to win32 calls)
+        # See issue #23 for more information
+        stream = ProxyBufferStreamWrapper(stream)
+        SHOULD_ENCODE = False
+
+    STREAM = AnsiToWin32(stream).stream
     SUPPORTS_COLOR = True
 else:
     if os.getenv('FORCE_COLOR', None) == '1':

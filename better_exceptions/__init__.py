@@ -17,15 +17,15 @@ import ast
 import inspect
 import keyword
 import linecache
-import locale
 import logging
 import os
 import re
 import sys
 import traceback
-import codecs
 
-from .color import STREAM, SUPPORTS_COLOR
+from .color import STREAM, SUPPORTS_COLOR, SHOULD_ENCODE
+from .context import PY3
+from .encoding import ENCODING, to_byte as _byte, to_unicode as _unicode
 from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
 
@@ -36,8 +36,6 @@ __version__ = '0.1.8'
 def isast(v):
     return inspect.isclass(v) and issubclass(v, ast.AST)
 
-
-ENCODING = locale.getpreferredencoding()
 
 PIPE_CHAR = u'\u2502'
 CAP_CHAR = u'\u2514'
@@ -65,32 +63,6 @@ THEME = {
 }
 
 MAX_LENGTH = 128
-
-PY3 = sys.version_info[0] >= 3
-
-
-def _byte(val):
-    unicode_type = str if PY3 else unicode
-    if isinstance(val, unicode_type):
-        try:
-            return val.encode(ENCODING)
-        except UnicodeEncodeError:
-            if PY3:
-                return codecs.escape_decode(val)[0]
-            else:
-                return val.encode("unicode-escape").decode("string-escape")
-
-    return val
-
-
-def _unicode(val):
-    if isinstance(val, bytes):
-        try:
-            return val.decode(ENCODING)
-        except UnicodeDecodeError:
-            return val.decode("unicode-escape")
-
-    return val
 
 
 def colorize_comment(source):
@@ -320,10 +292,13 @@ def format_traceback(tb=None):
 
 
 def write_stream(data):
-    data = _byte(data)
+    if SHOULD_ENCODE:
+        data = _byte(data)
 
-    if PY3:
-        STREAM.buffer.write(data)
+        if PY3:
+            STREAM.buffer.write(data)
+        else:
+            STREAM.write(data)
     else:
         STREAM.write(data)
 
