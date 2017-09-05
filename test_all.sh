@@ -39,6 +39,8 @@ function test_all {
 	# test_case "./test/test_interactive_raw.sh"
 	test_case "./test/test_string.sh"
 	test_case "$BETEXC_PYTHON" "test/test_logging.py"
+	test_case "$BETEXC_PYTHON" "test/test_truncating.py"
+	test_case "$BETEXC_PYTHON" "test/test_truncating_disabled.py"
 }
 
 for encoding in ascii "UTF-8"; do

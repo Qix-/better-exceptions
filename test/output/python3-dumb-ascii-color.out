@@ -147,3 +147,31 @@ AssertionError: [33;1massert[m baz == [31m90[m
 
 
 
+python3 test/test_truncating.py
+
+
+Traceback (most recent call last):
+  File "test/test_truncating.py", line 11, in <module>
+    div()
+    [36m-> <function ...[m
+  File "test/test_truncating.py", line 8, in div
+    [33;1mreturn[m [31m1[m / var
+    [36m           -> '999999999...[m
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+
+
+python3 test/test_truncating_disabled.py
+
+
+Traceback (most recent call last):
+  File "test/test_truncating_disabled.py", line 11, in <module>
+    div()
+    [36m-> <function div at 0xDEADBEEF>[m
+  File "test/test_truncating_disabled.py", line 8, in div
+    [33;1mreturn[m [31m1[m / var
+    [36m           -> '999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999'[m
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+
+

@@ -148,3 +148,31 @@ AssertionError: assert baz == 90
 
 
 
+python2 test/test_truncating.py
+
+
+Traceback (most recent call last):
+  File "test/test_truncating.py", line 11, in <module>
+    div()
+    -> <function ...
+  File "test/test_truncating.py", line 8, in div
+    return 1 / var
+               -> '999999999...
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+
+
+python2 test/test_truncating_disabled.py
+
+
+Traceback (most recent call last):
+  File "test/test_truncating_disabled.py", line 11, in <module>
+    div()
+    -> <function div at 0xDEADBEEF>
+  File "test/test_truncating_disabled.py", line 8, in div
+    return 1 / var
+               -> '999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999'
+TypeError: unsupported operand type(s) for /: 'int' and 'str'
+
+
+
