@@ -310,7 +310,7 @@ def format_exception(exc, value, tb):
         value.args = (colored_source,)
     title = traceback.format_exception_only(exc, value)
 
-    full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, title[0].strip())
+    full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, ''.join(title))
 
     return full_trace
 
