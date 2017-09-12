@@ -4,6 +4,8 @@ Also specifies the stream to write to. On Windows, this is a wrapped
 stream.
 """
 
+from __future__ import absolute_import
+
 import errno
 import os
 import struct
