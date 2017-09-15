@@ -1,4 +1,5 @@
 import better_exceptions
+better_exceptions.hook()
 
 foo = 52
 

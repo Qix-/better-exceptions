@@ -17,7 +17,7 @@ export PYTHONPATH
 function normalize {
 	# we translate anything that looks like an address into 0xDEADBEEF
 	# since the addresses change from run to run and break diff testing
-	cat | sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' | sed 's|File "/[^"]*"|File "/removed/for/test/purposes.ext"|g' | grep -v "bash: warning:"
+	cat | sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' | sed 's|<module '"'[^']*' from '[^']*'>|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' | sed 's|File "/[^"]*"|File "/removed/for/test/purposes.ext"|g' | grep -v "bash: warning:"
 }
 
 function test_case {

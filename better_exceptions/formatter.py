@@ -21,13 +21,10 @@ import re
 import sys
 import traceback
 
-from .color import STREAM, SUPPORTS_COLOR, SHOULD_ENCODE
+from .color import STREAM, SUPPORTS_COLOR
 from .context import PY3
 from .encoding import ENCODING, to_byte, to_unicode
 from .repl import get_repl
-
-
-__version__ = '0.1.8'
 
 
 PIPE_CHAR = u'\u2502'
@@ -52,18 +49,6 @@ MAX_LENGTH = 128
 
 def isast(v):
     return inspect.isclass(v) and issubclass(v, ast.AST)
-
-
-def write_stream(data, stream=STREAM):
-    if SHOULD_ENCODE:
-        data = to_byte(data)
-
-        if PY3:
-            stream.buffer.write(data)
-        else:
-            stream.write(data)
-    else:
-        stream.write(data)
 
 
 class ExceptionFormatter(object):
