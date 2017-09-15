@@ -1,6 +1,7 @@
 import better_exceptions
 import logging
 
+better_exceptions.hook()
 logging.basicConfig()
 
 logger = logging.getLogger(__name__)

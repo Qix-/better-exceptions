@@ -2,7 +2,8 @@ import argparse
 import imp
 import os
 
-from better_exceptions import interact
+from better_exceptions import interact, hook
+hook()
 
 parser = argparse.ArgumentParser(description='A Python REPL with better exceptions enabled', prog='python -m better_exceptions')
 parser.add_argument('-q', '--quiet', help="don't show a banner", action='store_true')
