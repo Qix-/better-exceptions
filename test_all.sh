@@ -41,6 +41,8 @@ function test_all {
 	test_case "$BETEXC_PYTHON" "test/test_logging.py"
 	test_case "$BETEXC_PYTHON" "test/test_truncating.py"
 	test_case "$BETEXC_PYTHON" "test/test_truncating_disabled.py"
+	test_case "$BETEXC_PYTHON" "test/test_indentation_error.py"
+	test_case "$BETEXC_PYTHON" "test/test_syntax_error.py"
 }
 
 for encoding in ascii "UTF-8"; do
