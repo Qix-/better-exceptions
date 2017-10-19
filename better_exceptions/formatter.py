@@ -295,6 +295,6 @@ class ExceptionFormatter(object):
             value.args = (colored_source,)
         title = traceback.format_exception_only(exc, value)
 
-        full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, title[0].strip())
+        full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, ''.join(title).strip())
 
         return full_trace
