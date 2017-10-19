@@ -1,15 +1,3 @@
-"""Beautiful and helpful exceptions
-
-User can `import better_exceptions_core` to use functions without any side effects.
-
-
-   Name: better_exceptions
- Author: Josh Junon
-  Email: josh@junon.me
-    URL: github.com/qix-/better-exceptions
-License: Copyright (c) 2017 Josh Junon, licensed under the MIT license
-"""
-
 from __future__ import absolute_import
 
 import ast
