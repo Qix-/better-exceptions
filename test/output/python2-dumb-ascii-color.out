@@ -182,3 +182,40 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
+python2 test/test_indentation_error.py
+
+
+Traceback (most recent call last):
+  File "test/test_indentation_error.py", line 13, in <module>
+    [33;1mexec[m(code)
+    [36m     -> '
+if True:
+    a = 5
+        print("foobar")  #intentional faulty indentation here.
+    b = 7
+'[m
+File "<string>", line 4
+    print("foobar")  #intentional faulty indentation here.
+    ^
+IndentationError: unexpected indent
+
+
+
+python2 test/test_syntax_error.py
+
+
+Traceback (most recent call last):
+  File "test/test_syntax_error.py", line 12, in <module>
+    [33;1mexec[m(code)
+    [36m     -> '
+if True:
+    a = 5
+    b = 7 *
+'[m
+File "<string>", line 4
+    b = 7 *
+          ^
+SyntaxError: invalid syntax
+
+
+

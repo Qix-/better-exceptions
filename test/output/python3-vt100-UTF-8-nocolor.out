@@ -181,3 +181,31 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
+python3 test/test_indentation_error.py
+
+
+Traceback (most recent call last):
+  File "test/test_indentation_error.py", line 13, in <module>
+    exec(code)
+         └ '\nif True:\n    a = 5\n        print("foobar")  #intentional faulty indentation here.\n    b = 7\n'
+File "<string>", line 4
+    print("foobar")  #intentional faulty indentation here.
+    ^
+IndentationError: unexpected indent
+
+
+
+python3 test/test_syntax_error.py
+
+
+Traceback (most recent call last):
+  File "test/test_syntax_error.py", line 12, in <module>
+    exec(code)
+         └ '\nif True:\n    a = 5\n    b = 7 *\n'
+File "<string>", line 4
+    b = 7 *
+          ^
+SyntaxError: invalid syntax
+
+
+
