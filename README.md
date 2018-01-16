@@ -21,6 +21,19 @@ setx BETTER_EXCEPTIONS 1    # Windows
 
 That's it!
 
+### Python REPL (Interactive Shell)
+
+In order to use `better_exceptions` in the Python REPL, first install the package (as instructed above) and run:
+
+```console
+$ python -m better_exceptions
+Type "help", "copyright", "credits" or "license" for more information.
+(BetterExceptionsConsole)
+>>>
+```
+
+in order to drop into a `better_exceptions`-enabled Python interactive shell.
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:
