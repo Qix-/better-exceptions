@@ -1,7 +1,15 @@
 {
   "values": [{
       "from": "NameError",
-      "to": "NaamNahiHaiError: ye naam undefined hai ye defined nahi kiya hai aapne"
+      "to": "NaamNahiHaiError"
+    },
+    {
+      "from": "name",
+      "to": "naam"
+    },
+    {
+      "from": "is not defined",
+      "to": "define nahi hai"
     },
     {
       "from": "unexpected indent",
@@ -50,6 +58,5 @@
       "from": "EOL",
       "to": "SyntaxSahiNahiError: line ke last mai Styntax sahi nahi hai"
     }
-
   ]
 }
