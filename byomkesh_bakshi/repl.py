@@ -7,9 +7,9 @@ REPL_ID_PREFIX = '@@@REPL@@@'
 
 repl = None
 
-class BetterExceptionsConsole(InteractiveConsole, object):
+class ByomkeshBakshiConsole(InteractiveConsole, object):
     def __init__(self):
-        super(BetterExceptionsConsole, self).__init__()
+        super(ByomkeshBakshiConsole, self).__init__()
         self.last_command = None
         self.entries = dict()
         self.last_code = None
@@ -19,14 +19,14 @@ class BetterExceptionsConsole(InteractiveConsole, object):
     def runcode(self, code):
         assert self.last_code is not None
         self.entries[self.last_id] = (code,) + self.last_code
-        return super(BetterExceptionsConsole, self).runcode(code)
+        return super(ByomkeshBakshiConsole, self).runcode(code)
 
     def runsource(self, source, loc='<input>', symbol='single'):
         # we abuse loc here to mark different entries of code.
         self.last_code = (loc, source)
         self.last_id = loc = '{}{}'.format(REPL_ID_PREFIX, self.counter)
         self.counter += 1
-        return super(BetterExceptionsConsole, self).runsource(source, loc, symbol)
+        return super(ByomkeshBakshiConsole, self).runsource(source, loc, symbol)
 
     def showtraceback(self):
         try:
@@ -45,6 +45,6 @@ def get_repl():
 
 def interact(quiet=False):
     global repl
-    repl = BetterExceptionsConsole()
+    repl = ByomkeshBakshiConsole()
     banner = '' if quiet else None
     repl.interact(banner)

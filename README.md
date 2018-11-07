@@ -28,7 +28,7 @@ In order to use `byomkesh_bakshi` in the Python REPL, first install the package 
 ```console
 $ python -m byomkesh_bakshi
 Type "help", "copyright", "credits" or "license" for more information.
-(BetterExceptionsConsole)
+(ByomkeshBakshiConsole)
 >>>
 ```
 
