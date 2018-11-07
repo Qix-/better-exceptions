@@ -1,7 +1,7 @@
-import better_exceptions
+import byomkesh_bakshi
 import logging
 
-better_exceptions.hook()
+byomkesh_bakshi.hook()
 logging.basicConfig()
 
 logger = logging.getLogger(__name__)

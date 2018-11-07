@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-import better_exceptions
-better_exceptions.hook()
+import byomkesh_bakshi
+byomkesh_bakshi.hook()
 
 code = """
 if True:

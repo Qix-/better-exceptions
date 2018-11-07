@@ -14,7 +14,7 @@ from setuptools.command.install_lib import install_lib
 class BuildWithPTH(build):
     def run(self):
         build.run(self)
-        path = join(dirname(__file__), 'better_exceptions_hook.pth')
+        path = join(dirname(__file__), 'byomkesh_bakshi_hook.pth')
         dest = join(self.build_lib, basename(path))
         self.copy_file(path, dest)
 
@@ -22,7 +22,7 @@ class BuildWithPTH(build):
 class EasyInstallWithPTH(easy_install):
     def run(self):
         easy_install.run(self)
-        path = join(dirname(__file__), 'better_exceptions_hook.pth')
+        path = join(dirname(__file__), 'byomkesh_bakshi_hook.pth')
         dest = join(self.install_dir, basename(path))
         self.copy_file(path, dest)
 
@@ -30,7 +30,7 @@ class EasyInstallWithPTH(easy_install):
 class InstallLibWithPTH(install_lib):
     def run(self):
         install_lib.run(self)
-        path = join(dirname(__file__), 'better_exceptions_hook.pth')
+        path = join(dirname(__file__), 'byomkesh_bakshi_hook.pth')
         dest = join(self.install_dir, basename(path))
         self.copy_file(path, dest)
         self.outputs = [dest]
@@ -42,18 +42,18 @@ class InstallLibWithPTH(install_lib):
 class DevelopWithPTH(develop):
     def run(self):
         develop.run(self)
-        path = join(dirname(__file__), 'better_exceptions_hook.pth')
+        path = join(dirname(__file__), 'byomkesh_bakshi_hook.pth')
         dest = join(self.install_dir, basename(path))
         self.copy_file(path, dest)
 
 
-with open('better_exceptions/__init__.py', 'r') as file:
+with open('byomkesh_bakshi/__init__.py', 'r') as file:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         file.read(), re.MULTILINE).group(1)
 
 setup(
-    name = 'better_exceptions',
-    packages = ['better_exceptions'],
+    name = 'byomkesh_bakshi',
+    packages = ['byomkesh_bakshi'],
     version = version,
     description = 'Pretty and helpful exceptions, automatically',
     author = 'Josh Junon',

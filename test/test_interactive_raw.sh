@@ -5,7 +5,7 @@
 /usr/bin/expect -f - <<EOF
 spawn ${BETEXC_PYTHON} -m test_util.quiet_console
 expect ">>> "
-send "import better_exceptions\r"
+send "import byomkesh_bakshi\r"
 expect ">>> "
 send "def foo(a):\r"
 expect "... "

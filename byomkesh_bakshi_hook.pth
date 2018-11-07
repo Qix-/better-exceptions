@@ -1,0 +1,1 @@
+import os; exec("try:\n  if 'BYOMKESH_BAKSHI' in os.environ:import byomkesh_bakshi;byomkesh_bakshi.hook()\nexcept:print('An error occured while automatically hooking byomkesh_bakshi.\\nIf you uninstalled byomkesh_bakshi, you should probably delete any \\'byomkesh_bakshi_hook.pth\\' file on your system or unset your \\'BYOMKESH_BAKSHI\\' environment variable.'); raise;")

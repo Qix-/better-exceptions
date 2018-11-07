@@ -1,0 +1,55 @@
+{
+  "values": [{
+      "from": "NameError",
+      "to": "NaamNahiHaiError: ye naam undefined hai ye defined nahi kiya hai aapne"
+    },
+    {
+      "from": "unexpected indent",
+      "to": "Aapke code ki formatting theek nahi hai. Aapko apne code ki indentation (yaani spacing) theek karo, jisse ki python aapke code ko samajh jayein."
+    },
+    {
+      "from": "StyntaxError",
+      "to": "aapne jo Styntax use kiya hai wo galat hai python isko support nahi karta hai"
+    },
+    {
+      "from": "IndexxError",
+      "to": "aapne loop ki jo range li hai vo sima ke bahar hai"
+
+    },
+    {
+      "from": "FileNotFoundError",
+      "to": "FileNotFoundError: file nahi mil rahi hai"
+
+    },
+    {
+      "from": "TabError",
+      "to": "aapne TabKey or spaceKey ka use galat kiya hai usko sahi karo"
+
+    },
+    {
+      "from": "UnsupportedOperation",
+      "to": "ye operation support nahi karta hai isko pad nahi sakte"
+
+    },
+    {
+      "from": "KeyError",
+      "to": "aapki key sahi nahi hai"
+
+    },
+    {
+      "from": "AttributeError",
+      "to": "AttributeError: ye oject nahi hai"
+
+    },
+    {
+      "from": "UnboundLocalError:",
+      "to": "UnboundLocalError: aapne defined karne se phele variable ka use kiya hai"
+
+    },
+    {
+      "from": "EOL",
+      "to": "SyntaxSahiNahiError: line ke last mai Styntax sahi nahi hai"
+    }
+
+  ]
+}

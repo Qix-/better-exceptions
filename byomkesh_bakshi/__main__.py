@@ -2,10 +2,10 @@ import argparse
 import imp
 import os
 
-from better_exceptions import interact, hook
+from byomkesh_bakshi import interact, hook
 hook()
 
-parser = argparse.ArgumentParser(description='A Python REPL with better exceptions enabled', prog='python -m better_exceptions')
+parser = argparse.ArgumentParser(description='A Python REPL with better exceptions enabled', prog='python -m byomkesh_bakshi')
 parser.add_argument('-q', '--quiet', help="don't show a banner", action='store_true')
 parser.add_argument('-i', '--no-init', dest='no_init', help="don't load ~/.pyinit", action='store_true')
 args = parser.parse_args()
