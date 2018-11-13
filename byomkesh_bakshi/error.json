@@ -7,6 +7,10 @@
       "from": "is not defined",
       "to": "define nahi hai"
     },
+		{
+      "from": "Missing parentheses",
+      "to": "aapne parentheses ka use nahi kiya hai python 3 parentheses ke bina print nahi karta hai"
+    },
     {
       "from": "unexpected indent",
       "to": "Aapke code ki formatting theek nahi hai. Aapko apne code ki indentation (yaani spacing) theek karo, jisse ki python aapke code ko samajh jayein."
