@@ -4,10 +4,6 @@
       "to": "NaamNahiHaiError"
     },
     {
-      "from": "name",
-      "to": "naam"
-    },
-    {
       "from": "is not defined",
       "to": "define nahi hai"
     },
