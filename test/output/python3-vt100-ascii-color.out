@@ -209,3 +209,42 @@ SyntaxError: invalid syntax
 
 
 
+python3 test/test_chaining.py
+
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 11, in cause
+    div(x, y)
+    [36m|   |  -> 0[m
+    [36m|   -> 1[m
+    [36m-> <function div at 0xDEADBEEF>[m
+  File "test/test_chaining.py", line 7, in div
+    x / y
+    [36m|   -> 0[m
+    [36m-> 1[m
+ZeroDivisionError: division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 17, in context
+    cause(x, y)
+    [36m|     |  -> 0[m
+    [36m|     -> 1[m
+    [36m-> <function cause at 0xDEADBEEF>[m
+  File "test/test_chaining.py", line 13, in cause
+    [33;1mraise[m [35;1mValueError[m([31m'Division error'[m)
+ValueError: Division error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 21, in <module>
+    context([31m1[m, [31m0[m)
+    [36m-> <function context at 0xDEADBEEF>[m
+  File "test/test_chaining.py", line 19, in context
+    [33;1mraise[m [35;1mValueError[m([31m'Cause error'[m) from e
+ValueError: Cause error
+
+
+
