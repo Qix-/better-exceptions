@@ -54,6 +54,8 @@ for encoding in ascii "UTF-8"; do
 
 				export LANG="en_US.${encoding}"
 				export LC_ALL="${LANG}"
+				export PYTHONCOERCECLOCALE=0
+				export PYTHONUTF8=0
 				export TERM="${term}"
 				export FORCE_COLOR="${color}"
 				export BETEXC_PYTHON="python${pv}"
