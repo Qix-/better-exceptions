@@ -276,13 +276,39 @@ class ExceptionFormatter(object):
 
         return ''.join(lines), final_source
 
-    def format_exception(self, exc, value, tb):
-        formatted, colored_source = self.format_traceback(tb)
+    def _format_exception(self, value, tb, seen=None):
+        # Implemented from built-in traceback module:
+        # https://github.com/python/cpython/blob/a5b76167dedf4d15211a216c3ca7b98e3cec33b8/Lib/traceback.py#L468
 
-        if not str(value) and exc is AssertionError:
+        exc_type, exc_value, exc_traceback = type(value), value, tb
+
+        if seen is None:
+            seen = set()
+
+        seen.add(id(exc_value))
+
+        if exc_value and PY3:
+            if exc_value.__cause__ is not None and id(exc_value.__cause__) not in seen:
+                for text in self._format_exception(exc_value.__cause__,exc_value.__cause__.__traceback__, seen=seen):
+                    yield text
+                yield u"\nThe above exception was the direct cause of the following exception:\n\n"
+            elif exc_value.__context__ is not None and id(exc_value.__context__) not in seen and not exc_value.__suppress_context__:
+                for text in self._format_exception(exc_value.__context__, exc_value.__context__.__traceback__, seen=seen):
+                    yield text
+                yield u"\nDuring handling of the above exception, another exception occurred:\n\n"
+
+        if exc_traceback is not None:
+            yield u'Traceback (most recent call last):\n'
+
+        formatted, colored_source = self.format_traceback(exc_traceback)
+
+        yield formatted
+
+        if not str(value) and exc_type is AssertionError:
             value.args = (colored_source,)
-        title = traceback.format_exception_only(exc, value)
+        title = traceback.format_exception_only(exc_type, value)
 
-        full_trace = u'Traceback (most recent call last):\n{}{}\n'.format(formatted, ''.join(title).strip())
+        yield u''.join(title).strip() + u'\n'
 
-        return full_trace
+    def format_exception(self, exc, value, tb):
+        return u''.join(formatted for formatted in self._format_exception(value, tb))
