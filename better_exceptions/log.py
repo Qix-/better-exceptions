@@ -9,7 +9,7 @@ def patch():
     import logging
     from . import format_exception
 
-    logging_format_exception = lambda exc_info: format_exception(*exc_info)
+    logging_format_exception = lambda exc_info: u''.join(format_exception(*exc_info))
 
     if hasattr(logging, '_defaultFormatter'):
         logging._defaultFormatter.format_exception = logging_format_exception
