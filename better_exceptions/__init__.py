@@ -46,11 +46,11 @@ def format_exception(exc, value, tb):
     # Rebuild each time to take into account any changes made by the user to the global parameters
     formatter = ExceptionFormatter(colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
                                    pipe_char=PIPE_CHAR, cap_char=CAP_CHAR)
-    return formatter.format_exception(exc, value, tb)
+    return list(formatter.format_exception(exc, value, tb))
 
 
 def excepthook(exc, value, tb):
-    formatted = format_exception(exc, value, tb)
+    formatted = u''.join(format_exception(exc, value, tb))
     write_stream(formatted, STREAM)
 
 

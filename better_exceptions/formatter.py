@@ -315,4 +315,5 @@ class ExceptionFormatter(object):
         yield u''.join(title).strip() + u'\n'
 
     def format_exception(self, exc, value, tb):
-        return u''.join(formatted for formatted in self._format_exception(value, tb))
+        for line in self._format_exception(value, tb):
+            yield line
