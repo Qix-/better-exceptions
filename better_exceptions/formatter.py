@@ -113,7 +113,11 @@ class ExceptionFormatter(object):
         return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
 
     def format_value(self, v):
-        v = repr(v)
+        try:
+            v = repr(v)
+        except Exception:
+            v = u'<unprintable %s object>' % type(v).__name__
+
         max_length = self._max_length
         if max_length is not None and len(v) > max_length:
             v = v[:max_length] + '...'
