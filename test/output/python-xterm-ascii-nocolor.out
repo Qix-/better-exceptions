@@ -1,4 +1,4 @@
-python2 test/test.py
+python test/test.py
 
 
 Traceback (most recent call last):
@@ -19,14 +19,14 @@ AssertionError: assert val > 10 and foo == 60
 
 
 
-python2 test/test_color.py
+python test/test_color.py
 
 
 False
 
 
 
-python2 test/test_encoding.py
+python test/test_encoding.py
 
 
 Traceback (most recent call last):
@@ -46,8 +46,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 ./test/test_interactive.sh
 
 
-spawn python2 -m better_exceptions -q
-
+spawn python -m better_exceptions -q
 >>> import better_exceptions
 >>> def foo(a):
 ...     assert a > 10
@@ -129,7 +128,7 @@ why     hello             there
 
 
 
-python2 test/test_logging.py
+python test/test_logging.py
 
 
 ERROR:__main__:callback failed
@@ -154,7 +153,7 @@ AssertionError: assert baz == 90
 
 
 
-python2 test/test_truncating.py
+python test/test_truncating.py
 
 
 Traceback (most recent call last):
@@ -168,7 +167,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
-python2 test/test_truncating_disabled.py
+python test/test_truncating_disabled.py
 
 
 Traceback (most recent call last):
@@ -182,18 +181,13 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
-python2 test/test_indentation_error.py
+python test/test_indentation_error.py
 
 
 Traceback (most recent call last):
   File "test/test_indentation_error.py", line 13, in <module>
     exec(code)
-         -> '
-if True:
-    a = 5
-        print("foobar")  #intentional faulty indentation here.
-    b = 7
-'
+         -> '\nif True:\n    a = 5\n        print("foobar")  #intentional faulty indentation here.\n    b = 7\n'
 File "<string>", line 4
     print("foobar")  #intentional faulty indentation here.
     ^
@@ -201,21 +195,56 @@ IndentationError: unexpected indent
 
 
 
-python2 test/test_syntax_error.py
+python test/test_syntax_error.py
 
 
 Traceback (most recent call last):
   File "test/test_syntax_error.py", line 12, in <module>
     exec(code)
-         -> '
-if True:
-    a = 5
-    b = 7 *
-'
+         -> '\nif True:\n    a = 5\n    b = 7 *\n'
 File "<string>", line 4
     b = 7 *
           ^
 SyntaxError: invalid syntax
+
+
+
+python test/test_chaining.py
+
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 11, in cause
+    div(x, y)
+    |   |  -> 0
+    |   -> 1
+    -> <function div at 0xDEADBEEF>
+  File "test/test_chaining.py", line 7, in div
+    x / y
+    |   -> 0
+    -> 1
+ZeroDivisionError: division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 17, in context
+    cause(x, y)
+    |     |  -> 0
+    |     -> 1
+    -> <function cause at 0xDEADBEEF>
+  File "test/test_chaining.py", line 13, in cause
+    raise ValueError("Division error")
+ValueError: Division error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "test/test_chaining.py", line 21, in <module>
+    context(1, 0)
+    -> <function context at 0xDEADBEEF>
+  File "test/test_chaining.py", line 19, in context
+    raise ValueError("Cause error") from e
+ValueError: Cause error
 
 
 

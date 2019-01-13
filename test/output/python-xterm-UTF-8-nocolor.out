@@ -1,4 +1,4 @@
-python3 test/test.py
+python test/test.py
 
 
 Traceback (most recent call last):
@@ -19,14 +19,14 @@ AssertionError: assert val > 10 and foo == 60
 
 
 
-python3 test/test_color.py
+python test/test_color.py
 
 
 False
 
 
 
-python3 test/test_encoding.py
+python test/test_encoding.py
 
 
 Traceback (most recent call last):
@@ -46,7 +46,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 ./test/test_interactive.sh
 
 
-spawn python3 -m better_exceptions -q
+spawn python -m better_exceptions -q
 >>> import better_exceptions
 >>> def foo(a):
 ...     assert a > 10
@@ -54,12 +54,12 @@ spawn python3 -m better_exceptions -q
 >>> foo(1)
 Traceback (most recent call last):
   File "<console>", line 1, in <module>
-    foo(1)
-    └ <function foo at 0xDEADBEEF>
+    foo([31m1[m)
+    [36m└ <function foo at 0xDEADBEEF>[m
   File "<console>", line 2, in foo
-    assert a > 10
-           └ 1
-AssertionError: assert a > 10
+    [33;1massert[m a > [31m10[m
+    [36m       └ 1[m
+AssertionError: [33;1massert[m a > [31m10[m
 >>> exit()
 
 
@@ -128,7 +128,7 @@ why     hello             there
 
 
 
-python3 test/test_logging.py
+python test/test_logging.py
 
 
 ERROR:__main__:callback failed
@@ -153,7 +153,7 @@ AssertionError: assert baz == 90
 
 
 
-python3 test/test_truncating.py
+python test/test_truncating.py
 
 
 Traceback (most recent call last):
@@ -167,7 +167,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
-python3 test/test_truncating_disabled.py
+python test/test_truncating_disabled.py
 
 
 Traceback (most recent call last):
@@ -181,7 +181,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
 
-python3 test/test_indentation_error.py
+python test/test_indentation_error.py
 
 
 Traceback (most recent call last):
@@ -195,7 +195,7 @@ IndentationError: unexpected indent
 
 
 
-python3 test/test_syntax_error.py
+python test/test_syntax_error.py
 
 
 Traceback (most recent call last):
@@ -209,7 +209,7 @@ SyntaxError: invalid syntax
 
 
 
-python3 test/test_chaining.py
+python test/test_chaining.py
 
 
 Traceback (most recent call last):

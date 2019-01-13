@@ -10,13 +10,12 @@ import sys
 import traceback
 
 from .color import STREAM, SUPPORTS_COLOR
-from .context import PY3
 from .encoding import ENCODING, to_byte, to_unicode
 from .repl import get_repl
 
 
-PIPE_CHAR = u'\u2502'
-CAP_CHAR = u'\u2514'
+PIPE_CHAR = '\u2502'
+CAP_CHAR = '\u2514'
 
 try:
     PIPE_CHAR.encode(ENCODING)
@@ -29,7 +28,7 @@ THEME = {
     'keyword': lambda s: '\x1b[33;1m{}\x1b[m'.format(s),
     'builtin': lambda s: '\x1b[35;1m{}\x1b[m'.format(s),
     'literal': lambda s: '\x1b[31m{}\x1b[m'.format(s),
-    'inspect': lambda s: u'\x1b[36m{}\x1b[m'.format(s),
+    'inspect': lambda s: '\x1b[36m{}\x1b[m'.format(s),
 }
 
 MAX_LENGTH = 128
@@ -116,7 +115,7 @@ class ExceptionFormatter(object):
         try:
             v = repr(v)
         except Exception:
-            v = u'<unprintable %s object>' % type(v).__name__
+            v = '<unprintable %s object>' % type(v).__name__
 
         max_length = self._max_length
         if max_length is not None and len(v) > max_length:
@@ -239,14 +238,9 @@ class ExceptionFormatter(object):
                 line += (' ' * (pc - index)) + self._pipe_char
                 index = pc + 1
 
-            if not PY3 and isinstance(val, str):
-                # In Python2 the Non-ASCII value will be the escaped string,
-                # use string-escape to decode the string to show the text in human way.
-                val = to_unicode(val.decode("string-escape"))
-
-            line += u'{}{} {}'.format((' ' * (col - index)), self._cap_char, val)
+            line += '{}{} {}'.format((' ' * (col - index)), self._cap_char, val)
             lines.append(self._theme['inspect'](line) if self._colored else line)
-        formatted = u'\n    '.join([to_unicode(x) for x in lines])
+        formatted = '\n    '.join([to_unicode(x) for x in lines])
 
         return (filename, lineno, function, formatted), color_source
 
@@ -291,18 +285,18 @@ class ExceptionFormatter(object):
 
         seen.add(id(exc_value))
 
-        if exc_value and PY3:
+        if exc_value:
             if exc_value.__cause__ is not None and id(exc_value.__cause__) not in seen:
                 for text in self._format_exception(exc_value.__cause__,exc_value.__cause__.__traceback__, seen=seen):
                     yield text
-                yield u"\nThe above exception was the direct cause of the following exception:\n\n"
+                yield "\nThe above exception was the direct cause of the following exception:\n\n"
             elif exc_value.__context__ is not None and id(exc_value.__context__) not in seen and not exc_value.__suppress_context__:
                 for text in self._format_exception(exc_value.__context__, exc_value.__context__.__traceback__, seen=seen):
                     yield text
-                yield u"\nDuring handling of the above exception, another exception occurred:\n\n"
+                yield "\nDuring handling of the above exception, another exception occurred:\n\n"
 
         if exc_traceback is not None:
-            yield u'Traceback (most recent call last):\n'
+            yield 'Traceback (most recent call last):\n'
 
         formatted, colored_source = self.format_traceback(exc_traceback)
 
@@ -312,7 +306,7 @@ class ExceptionFormatter(object):
             value.args = (colored_source,)
         title = traceback.format_exception_only(exc_type, value)
 
-        yield u''.join(title).strip() + u'\n'
+        yield ''.join(title).strip() + '\n'
 
     def format_exception(self, exc, value, tb):
         for line in self._format_exception(value, tb):
