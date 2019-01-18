@@ -9,19 +9,9 @@ import re
 import sys
 import traceback
 
-from .color import STREAM, SUPPORTS_COLOR
-from .encoding import ENCODING, to_byte, to_unicode
+from .color import SUPPORTS_COLOR
 from .repl import get_repl
 
-
-PIPE_CHAR = '\u2502'
-CAP_CHAR = '\u2514'
-
-try:
-    PIPE_CHAR.encode(ENCODING)
-except UnicodeEncodeError:
-    PIPE_CHAR = '|'
-    CAP_CHAR = '->'
 
 THEME = {
     'comment': lambda s: '\x1b[2;37m{}\x1b[m'.format(s),
@@ -48,13 +38,21 @@ class ExceptionFormatter(object):
         'keywords': [getattr(ast, cls) for cls in dir(ast) if keyword.iskeyword(cls.lower()) and isast(getattr(ast, cls))],
     }
 
-    def __init__(self, colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
-                       pipe_char=PIPE_CHAR, cap_char=CAP_CHAR):
+    def __init__(self, colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH, encoding='ascii'):
         self._colored = colored
         self._theme = theme
         self._max_length = max_length
-        self._pipe_char = pipe_char
-        self._cap_char = cap_char
+        self._encoding = encoding
+        self._pipe_char = self._get_char('\u2502', '|')
+        self._cap_char = self._get_char('\u2514', '->')
+
+    def _get_char(self, char, default):
+        try:
+            char.encode(self._encoding)
+        except UnicodeEncodeError:
+            return default
+        else:
+            return char
 
     def colorize_comment(self, source):
         match = self.COMMENT_REGXP.match(source)
@@ -240,7 +238,7 @@ class ExceptionFormatter(object):
 
             line += '{}{} {}'.format((' ' * (col - index)), self._cap_char, val)
             lines.append(self._theme['inspect'](line) if self._colored else line)
-        formatted = '\n    '.join([to_unicode(x) for x in lines])
+        formatted = '\n    '.join(lines)
 
         return (filename, lineno, function, formatted), color_source
 
