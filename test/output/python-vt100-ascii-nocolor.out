@@ -34,11 +34,11 @@ Traceback (most recent call last):
     div()
     -> <function div at 0xDEADBEEF>
   File "test/test_encoding.py", line 11, in div
-    return _deep("天")
+    return _deep("\u5929")
            -> <function _deep at 0xDEADBEEF>
   File "test/test_encoding.py", line 8, in _deep
     return 1 / val
-               -> '天'
+               -> '\u5929'
 TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 

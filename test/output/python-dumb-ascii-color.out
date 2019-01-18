@@ -34,11 +34,11 @@ Traceback (most recent call last):
     div()
     [36m-> <function div at 0xDEADBEEF>[m
   File "test/test_encoding.py", line 11, in div
-    [33;1mreturn[m _deep([31m'天'[m)
+    [33;1mreturn[m _deep([31m'\u5929'[m)
     [36m       -> <function _deep at 0xDEADBEEF>[m
   File "test/test_encoding.py", line 8, in _deep
     [33;1mreturn[m [31m1[m / val
-    [36m           -> '天'[m
+    [36m           -> '\u5929'[m
 TypeError: unsupported operand type(s) for /: 'int' and 'str'
 
 
