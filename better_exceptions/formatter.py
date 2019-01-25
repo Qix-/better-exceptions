@@ -232,14 +232,24 @@ class ExceptionFormatter(object):
         for i in reversed(range(len(relevant_values))):
             _, col, val = relevant_values[i]
             pipe_cols = [pcol for _, pcol, _ in relevant_values[:i]]
-            line = ''
+            pre_line = ''
             index = 0
+
             for pc in pipe_cols:
-                line += (' ' * (pc - index)) + self._pipe_char
+                pre_line += (' ' * (pc - index)) + self._pipe_char
                 index = pc + 1
 
-            line += '{}{} {}'.format((' ' * (col - index)), self._cap_char, val)
-            lines.append(self._theme['inspect'](line) if self._colored else line)
+            pre_line += ' ' * (col - index)
+            val_lines = val.split('\n')
+
+            for n, val_line in enumerate(val_lines):
+                if n == 0:
+                    line = pre_line + self._cap_char + ' ' + val_line
+                else:
+                    line = pre_line + ' ' * (len(self._cap_char) + 1) + val_line
+
+                lines.append(self._theme['inspect'](line) if self._colored else line)
+
         formatted = '\n    '.join([to_unicode(x) for x in lines])
 
         return (filename, lineno, function, formatted), color_source

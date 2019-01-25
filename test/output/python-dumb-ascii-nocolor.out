@@ -248,3 +248,22 @@ ValueError: Cause error
 
 
 
+python test/test_multilines_repr.py
+
+
+Traceback (most recent call last):
+  File "test/test_multilines_repr.py", line 18, in <module>
+    multiline()
+    -> <function multiline at 0xDEADBEEF>
+  File "test/test_multilines_repr.py", line 16, in multiline
+    a + b
+    |   -> [[1, 2, 3]
+    |       [4, 5, 6]
+    |       [7, 8, 9]]
+    -> [[1, 2, 3]
+        [4, 5, 6]
+        [7, 8, 9]]
+TypeError: unsupported operand type(s) for +: 'A' and 'A'
+
+
+
