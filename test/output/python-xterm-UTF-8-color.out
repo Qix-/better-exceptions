@@ -73,8 +73,9 @@ import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
-    [36m       │                  │                         │             └ 5[m
-    [36m       │                  │                         └ 5[m
+    [36m       │                  │                 │       │             └ 5[m
+    [36m       │                  │                 │       └ 5[m
+    [36m       │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m       │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m       └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
 AssertionError: [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
@@ -82,8 +83,9 @@ AssertionError: [33;1mimport[m better_exceptions; better_exceptions.hook(); a 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
-    [36m       │                  │                         │             └ 5[m
-    [36m       │                  │                         └ 5[m
+    [36m       │                  │                 │       │             └ 5[m
+    [36m       │                  │                 │       └ 5[m
+    [36m       │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m       │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m       └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
 AssertionError: [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m5[m; [33;1massert[m a > [31m10[m [2;37m# this should work fine[m
@@ -93,8 +95,9 @@ from __future__ import print_function; import better_exceptions; better_exceptio
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mfrom[m __future__ [33;1mimport[m print_function; [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m"why hello there"[m; [35;1mprint[m(a); [33;1massert[m False
-    [36m                       │                      │                  │                         │                            └ 'why hello there'[m
-    [36m                       │                      │                  │                         └ 'why hello there'[m
+    [36m                       │                      │                  │                 │       │                            └ 'why hello there'[m
+    [36m                       │                      │                  │                 │       └ 'why hello there'[m
+    [36m                       │                      │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m                       │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)[m
@@ -104,8 +107,9 @@ why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mfrom[m __future__ [33;1mimport[m print_function; [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m"why hello there"[m; [35;1mprint[m(a); [33;1massert[m False
-    [36m                       │                      │                  │                         │                            └ 'why hello there'[m
-    [36m                       │                      │                  │                         └ 'why hello there'[m
+    [36m                       │                      │                  │                 │       │                            └ 'why hello there'[m
+    [36m                       │                      │                  │                 │       └ 'why hello there'[m
+    [36m                       │                      │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m                       │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)[m
@@ -117,8 +121,9 @@ from __future__ import print_function; import better_exceptions; better_exceptio
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mfrom[m __future__ [33;1mimport[m print_function; [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m"why     hello          "[m + [31m"   there"[m; [35;1mprint[m(a); [33;1massert[m False
-    [36m                       │                      │                  │                         │                                                 └ 'why     hello             there'[m
-    [36m                       │                      │                  │                         └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 │       │                                                 └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 │       └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m                       │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)[m
@@ -128,8 +133,9 @@ why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     [33;1mfrom[m __future__ [33;1mimport[m print_function; [33;1mimport[m better_exceptions; better_exceptions.hook(); a = [31m"why     hello          "[m + [31m"   there"[m; [35;1mprint[m(a); [33;1massert[m False
-    [36m                       │                      │                  │                         │                                                 └ 'why     hello             there'[m
-    [36m                       │                      │                  │                         └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 │       │                                                 └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 │       └ 'why     hello             there'[m
+    [36m                       │                      │                  │                 └ <function hook at 0xDEADBEEF>[m
     [36m                       │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>[m
     [36m                       └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)[m
@@ -303,6 +309,28 @@ Traceback (most recent call last):
     [36m│                                             └ 0[m
     [36m└ 0[m
 TypeError: unsupported operand type(s) for +: 'int' and 'bytes'
+
+
+
+python test/test_attributes.py
+
+
+Traceback (most recent call last):
+  File "test/test_attributes.py", line 17, in <module>
+    foo()
+    [36m└ <function foo at 0xDEADBEEF>[m
+  File "test/test_attributes.py", line 15, in foo
+    ... + [31m1[m + bar(a).b + a.forbidden + a.nope.a + x.__bool__ [33;1mor[m a. b . isdigit() [33;1mand[m [31m.3[m + ...
+    [36m              │      │ │           │          │ │           │  │   └ <method 'isdigit' of 'str' objects>[m
+    [36m              │      │ │           │          │ │           │  └ '123'[m
+    [36m              │      │ │           │          │ │           └ <__main__.Obj object at 0xDEADBEEF>[m
+    [36m              │      │ │           │          │ └ <slot wrapper '__bool__' of 'NoneType' objects>[m
+    [36m              │      │ │           │          └ None[m
+    [36m              │      │ │           └ <__main__.Obj object at 0xDEADBEEF>[m
+    [36m              │      │ └ <property object at 0xDEADBEEF>[m
+    [36m              │      └ <__main__.Obj object at 0xDEADBEEF>[m
+    [36m              └ <__main__.Obj object at 0xDEADBEEF>[m
+TypeError: unsupported operand type(s) for +: 'ellipsis' and 'int'
 
 
 

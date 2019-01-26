@@ -55,25 +55,38 @@ class ExceptionFormatter(object):
             v = v[:max_length] + '...'
         return v
 
-    def get_relevant_names(self, source):
-        for token in self._highlighter.tokenize(source):
-            if token.type != tokenize.NAME:
-                continue
-
-            if not keyword.iskeyword(token.string):
-                yield token.string, token.start[1]
-
     def get_relevant_values(self, source, frame):
-        names = self.get_relevant_names(source)
         values = []
+        value = None
+        is_attribute = False
+        is_valid_value = False
 
-        for name, col in names:
-            if name in frame.f_locals:
-                val = frame.f_locals.get(name, None)
-                values.append((col, self.format_value(val)))
-            elif name in frame.f_globals:
-                val = frame.f_globals.get(name, None)
-                values.append((col, self.format_value(val)))
+        for token in self._highlighter.tokenize(source):
+            type_, string, (_, col), *_ = token
+
+            if type_ == tokenize.NAME and not keyword.iskeyword(string):
+                if not is_attribute:
+                    for variables in (frame.f_locals, frame.f_globals):
+                        try:
+                            value = variables[string]
+                        except KeyError:
+                            continue
+                        else:
+                            is_valid_value = True
+                            values.append((col, self.format_value(value)))
+                            break
+                elif is_valid_value:
+                    try:
+                        value = inspect.getattr_static(value, string)
+                    except AttributeError:
+                        is_valid_value = False
+                    else:
+                        values.append((col, self.format_value(value)))
+            elif type_ == tokenize.OP and string == ".":
+                is_attribute = True
+            else:
+                is_attribute = False
+                is_valid_value = False
 
         values.sort()
 

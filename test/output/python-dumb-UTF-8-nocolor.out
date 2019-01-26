@@ -73,8 +73,9 @@ import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this 
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this should work fine
-           │                  │                         │             └ 5
-           │                  │                         └ 5
+           │                  │                 │       │             └ 5
+           │                  │                 │       └ 5
+           │                  │                 └ <function hook at 0xDEADBEEF>
            │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
            └ <module 'test_module' from '/removed/for/test/purposes.py'>
 AssertionError: import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this should work fine
@@ -82,8 +83,9 @@ AssertionError: import better_exceptions; better_exceptions.hook(); a = 5; asser
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this should work fine
-           │                  │                         │             └ 5
-           │                  │                         └ 5
+           │                  │                 │       │             └ 5
+           │                  │                 │       └ 5
+           │                  │                 └ <function hook at 0xDEADBEEF>
            │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
            └ <module 'test_module' from '/removed/for/test/purposes.py'>
 AssertionError: import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this should work fine
@@ -93,8 +95,9 @@ from __future__ import print_function; import better_exceptions; better_exceptio
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; better_exceptions.hook(); a = "why hello there"; print(a); assert False
-                           │                      │                  │                         │                            └ 'why hello there'
-                           │                      │                  │                         └ 'why hello there'
+                           │                      │                  │                 │       │                            └ 'why hello there'
+                           │                      │                  │                 │       └ 'why hello there'
+                           │                      │                  │                 └ <function hook at 0xDEADBEEF>
                            │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)
@@ -104,8 +107,9 @@ why hello there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; better_exceptions.hook(); a = "why hello there"; print(a); assert False
-                           │                      │                  │                         │                            └ 'why hello there'
-                           │                      │                  │                         └ 'why hello there'
+                           │                      │                  │                 │       │                            └ 'why hello there'
+                           │                      │                  │                 │       └ 'why hello there'
+                           │                      │                  │                 └ <function hook at 0xDEADBEEF>
                            │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)
@@ -117,8 +121,9 @@ from __future__ import print_function; import better_exceptions; better_exceptio
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; better_exceptions.hook(); a = "why     hello          " + "   there"; print(a); assert False
-                           │                      │                  │                         │                                                 └ 'why     hello             there'
-                           │                      │                  │                         └ 'why     hello             there'
+                           │                      │                  │                 │       │                                                 └ 'why     hello             there'
+                           │                      │                  │                 │       └ 'why     hello             there'
+                           │                      │                  │                 └ <function hook at 0xDEADBEEF>
                            │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)
@@ -128,8 +133,9 @@ why     hello             there
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
     from __future__ import print_function; import better_exceptions; better_exceptions.hook(); a = "why     hello          " + "   there"; print(a); assert False
-                           │                      │                  │                         │                                                 └ 'why     hello             there'
-                           │                      │                  │                         └ 'why     hello             there'
+                           │                      │                  │                 │       │                                                 └ 'why     hello             there'
+                           │                      │                  │                 │       └ 'why     hello             there'
+                           │                      │                  │                 └ <function hook at 0xDEADBEEF>
                            │                      │                  └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            │                      └ <module 'test_module' from '/removed/for/test/purposes.py'>
                            └ _Feature((2, 6, 0, 'alpha', 2), (3, 0, 0, 'alpha', 0), 65536)
@@ -303,6 +309,28 @@ Traceback (most recent call last):
     │                                             └ 0
     └ 0
 TypeError: unsupported operand type(s) for +: 'int' and 'bytes'
+
+
+
+python test/test_attributes.py
+
+
+Traceback (most recent call last):
+  File "test/test_attributes.py", line 17, in <module>
+    foo()
+    └ <function foo at 0xDEADBEEF>
+  File "test/test_attributes.py", line 15, in foo
+    ... + 1 + bar(a).b + a.forbidden + a.nope.a + x.__bool__ or a. b . isdigit() and .3 + ...
+                  │      │ │           │          │ │           │  │   └ <method 'isdigit' of 'str' objects>
+                  │      │ │           │          │ │           │  └ '123'
+                  │      │ │           │          │ │           └ <__main__.Obj object at 0xDEADBEEF>
+                  │      │ │           │          │ └ <slot wrapper '__bool__' of 'NoneType' objects>
+                  │      │ │           │          └ None
+                  │      │ │           └ <__main__.Obj object at 0xDEADBEEF>
+                  │      │ └ <property object at 0xDEADBEEF>
+                  │      └ <__main__.Obj object at 0xDEADBEEF>
+                  └ <__main__.Obj object at 0xDEADBEEF>
+TypeError: unsupported operand type(s) for +: 'ellipsis' and 'int'
 
 
 
