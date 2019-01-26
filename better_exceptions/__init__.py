@@ -16,7 +16,7 @@ from __future__ import print_function
 import logging
 import sys
 
-from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatter
+from .formatter import STYLE, THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatter
 from .encoding import to_byte
 from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM
 from .log import BetExcLogger, patch as patch_logging
@@ -24,9 +24,6 @@ from .repl import interact, get_repl
 
 
 __version__ = '0.2.2'
-
-
-THEME = THEME.copy()  # Users customizing the theme should not impact core
 
 
 def write_stream(data, stream=STREAM):
@@ -39,8 +36,10 @@ def write_stream(data, stream=STREAM):
 
 def format_exception(exc, value, tb):
     # Rebuild each time to take into account any changes made by the user to the global parameters
-    formatter = ExceptionFormatter(colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
-                                   pipe_char=PIPE_CHAR, cap_char=CAP_CHAR)
+    formatter = ExceptionFormatter(
+        colored=SUPPORTS_COLOR, style=STYLE,theme=THEME, max_length=MAX_LENGTH,
+        pipe_char=PIPE_CHAR, cap_char=CAP_CHAR
+    )
     return list(formatter.format_exception(exc, value, tb))
 
 

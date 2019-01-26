@@ -1,16 +1,17 @@
 from __future__ import absolute_import
 
-import ast
 import inspect
 import keyword
 import linecache
 import os
 import re
 import sys
+import tokenize
 import traceback
 
 from .color import STREAM, SUPPORTS_COLOR
 from .encoding import ENCODING, to_byte, to_unicode
+from .highlighter import STYLE, Highlighter
 from .repl import get_repl
 
 
@@ -24,92 +25,24 @@ except UnicodeEncodeError:
     CAP_CHAR = '->'
 
 THEME = {
-    'comment': lambda s: '\x1b[2;37m{}\x1b[m'.format(s),
-    'keyword': lambda s: '\x1b[33;1m{}\x1b[m'.format(s),
-    'builtin': lambda s: '\x1b[35;1m{}\x1b[m'.format(s),
-    'literal': lambda s: '\x1b[31m{}\x1b[m'.format(s),
-    'inspect': lambda s: '\x1b[36m{}\x1b[m'.format(s),
+    'inspect': '\x1b[36m{}\x1b[m',
 }
 
 MAX_LENGTH = 128
 
 
-def isast(v):
-    return inspect.isclass(v) and issubclass(v, ast.AST)
-
-
 class ExceptionFormatter(object):
 
-    COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
     CMDLINE_REGXP = re.compile(r'(?:[^\t ]*([\'"])(?:\\.|.)*(?:\1))[^\t ]*|([^\t ]+)')
 
-    AST_ELEMENTS = {
-        'builtins': __builtins__.keys() if type(__builtins__) is dict else dir(__builtins__),
-        'keywords': [getattr(ast, cls) for cls in dir(ast) if keyword.iskeyword(cls.lower()) and isast(getattr(ast, cls))],
-    }
-
-    def __init__(self, colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
+    def __init__(self, colored=SUPPORTS_COLOR, style=STYLE, theme=THEME, max_length=MAX_LENGTH,
                        pipe_char=PIPE_CHAR, cap_char=CAP_CHAR):
         self._colored = colored
         self._theme = theme
         self._max_length = max_length
         self._pipe_char = pipe_char
         self._cap_char = cap_char
-
-    def colorize_comment(self, source):
-        match = self.COMMENT_REGXP.match(source)
-        if match:
-            source = '{}{}'.format(match.group(1), self._theme['comment'](match.group(4)))
-        return source
-
-    def colorize_tree(self, tree, source):
-        if not self._colored:
-            # quick fail
-            return source
-
-        chunks = []
-
-        offset = 0
-        nodes = [n for n in ast.walk(tree)]
-
-        def append(offset, node, s, theme):
-            begin_col = node.col_offset
-            src_chunk = source[offset:begin_col]
-            chunks.append(src_chunk)
-            chunks.append(self._theme[theme](s))
-            return begin_col + len(s)
-
-        displayed_nodes = []
-
-        for node in nodes:
-            nodecls = node.__class__
-            nodename = nodecls.__name__
-
-            if 'col_offset' not in dir(node):
-                continue
-
-            if nodecls in self.AST_ELEMENTS['keywords']:
-                displayed_nodes.append((node, nodename.lower(), 'keyword'))
-
-            if nodecls == ast.Name and node.id in self.AST_ELEMENTS['builtins']:
-                displayed_nodes.append((node, node.id, 'builtin'))
-
-            if nodecls == ast.Str:
-                displayed_nodes.append((node, "'{}'".format(node.s), 'literal'))
-
-            if nodecls == ast.Num:
-                displayed_nodes.append((node, str(node.n), 'literal'))
-
-        displayed_nodes.sort(key=lambda elem: elem[0].col_offset)
-
-        for dn in displayed_nodes:
-            offset = append(offset, *dn)
-
-        chunks.append(source[offset:])
-        return self.colorize_comment(''.join(chunks))
-
-    def get_relevant_names(self, source, tree):
-        return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
+        self._highlighter = Highlighter(style)
 
     def format_value(self, v):
         try:
@@ -122,21 +55,27 @@ class ExceptionFormatter(object):
             v = v[:max_length] + '...'
         return v
 
-    def get_relevant_values(self, source, frame, tree):
-        names = self.get_relevant_names(source, tree)
+    def get_relevant_names(self, source):
+        for token in self._highlighter.tokenize(source):
+            if token.type != tokenize.NAME:
+                continue
+
+            if not keyword.iskeyword(token.string):
+                yield token.string, token.start[1]
+
+    def get_relevant_values(self, source, frame):
+        names = self.get_relevant_names(source)
         values = []
 
-        for name in names:
-            text = name.id
-            col = name.col_offset
-            if text in frame.f_locals:
-                val = frame.f_locals.get(text, None)
-                values.append((text, col, self.format_value(val)))
-            elif text in frame.f_globals:
-                val = frame.f_globals.get(text, None)
-                values.append((text, col, self.format_value(val)))
+        for name, col in names:
+            if name in frame.f_locals:
+                val = frame.f_locals.get(name, None)
+                values.append((col, self.format_value(val)))
+            elif name in frame.f_globals:
+                val = frame.f_globals.get(name, None)
+                values.append((col, self.format_value(val)))
 
-        values.sort(key=lambda e: e[1])
+        values.sort()
 
         return values
 
@@ -214,13 +153,12 @@ class ExceptionFormatter(object):
 
         source = source.strip()
 
-        try:
-            tree = ast.parse(source, mode='exec')
-        except SyntaxError:
-            return filename, lineno, function, source, source, []
+        relevant_values = self.get_relevant_values(source, tb.tb_frame)
 
-        relevant_values = self.get_relevant_values(source, tb.tb_frame, tree)
-        color_source = self.colorize_tree(tree, source)
+        if self._colored:
+            color_source = self._highlighter.highlight(source)
+        else:
+            color_source = source
 
         return filename, lineno, function, source, color_source, relevant_values
 
@@ -230,8 +168,8 @@ class ExceptionFormatter(object):
 
         lines = [color_source]
         for i in reversed(range(len(relevant_values))):
-            _, col, val = relevant_values[i]
-            pipe_cols = [pcol for _, pcol, _ in relevant_values[:i]]
+            col, val = relevant_values[i]
+            pipe_cols = [pcol for pcol, _ in relevant_values[:i]]
             pre_line = ''
             index = 0
 
@@ -248,7 +186,7 @@ class ExceptionFormatter(object):
                 else:
                     line = pre_line + ' ' * (len(self._cap_char) + 1) + val_line
 
-                lines.append(self._theme['inspect'](line) if self._colored else line)
+                lines.append(self._theme['inspect'].format(line) if self._colored else line)
 
         formatted = '\n    '.join([to_unicode(x) for x in lines])
 
