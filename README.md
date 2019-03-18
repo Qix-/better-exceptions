@@ -45,6 +45,26 @@ better_exceptions.MAX_LENGTH = None
 
 While using `better_exceptions` in production, do not forget to unset the `BETTER_EXCEPTIONS` variable to avoid leaking sensitive data in your logs.
 
+### Use with unittest
+
+If you want to use `better_exceptions` to format `unittest`'s exception output, you can use the monkey patch below:
+
+```python
+import sys
+import unittest
+import better_exceptions
+
+def patch(self, err, test):
+    lines = better_exceptions.format_exception(*err)
+    if sys.version_info[0] == 2:
+        return u"".join(lines).encode("utf-8")
+    return "".join(lines)
+
+unittest.result.TestResult._exc_info_to_string = patch
+```
+
+Note that this uses an undocumented method override, so it is **not** guaranteed to work on all platforms or versions of Python.
+
 ## Troubleshooting
 
 If you do not see beautiful exceptions, first make sure that the environment variable does exist. You can try `echo $BETTER_EXCEPTIONS` (Linux / OSX) or `echo %BETTER_EXCEPTIONS%` (Windows). On Linux and OSX, the `export` command does not add the variable permanently, you will probably need to edit the `~/.profile` file to make it persistent. On Windows, you need to open a new terminal after the `setx` command.

@@ -209,6 +209,25 @@ SyntaxError: invalid syntax
 
 
 
+python3 test/test_unittest_patch.py
+
+
+    return a + b
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+    testMethod()
+    -> <bound method MyTestCase.test_add of <__main__.MyTestCase testMethod=test_add>>
+  File "test/test_unittest_patch.py", line 15, in test_add
+    self.assertEqual(add(1, "2"), 3)
+    |                -> <function add at 0xDEADBEEF>
+    -> <__main__.MyTestCase testMethod=test_add>
+  File "test/test_unittest_patch.py", line 10, in add
+    return a + b
+           |   -> '2'
+           -> 1
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+
+
 python3 test/test_chaining.py
 
 
