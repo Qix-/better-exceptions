@@ -199,7 +199,11 @@ class ExceptionFormatter(object):
         return source
 
     def get_traceback_information(self, tb):
-        frame_info = inspect.getframeinfo(tb)
+        if inspect.istraceback(tb):
+            frame = tb.tb_frame
+        else:
+            frame = tb
+        frame_info = inspect.getframeinfo(frame)
         filename = frame_info.filename
         lineno = frame_info.lineno
         function = frame_info.function
@@ -220,7 +224,7 @@ class ExceptionFormatter(object):
         except SyntaxError:
             return filename, lineno, function, source, source, []
 
-        relevant_values = self.get_relevant_values(source, tb.tb_frame, tree)
+        relevant_values = self.get_relevant_values(source, frame, tree)
         color_source = self.colorize_tree(tree, source)
 
         return filename, lineno, function, source, color_source, relevant_values
