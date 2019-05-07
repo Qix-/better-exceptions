@@ -115,7 +115,9 @@ class ExceptionFormatter(object):
     def format_value(self, v):
         try:
             v = repr(v)
-        except Exception:
+        except KeyboardInterrupt:
+            raise
+        except BaseException:
             v = u'<unprintable %s object>' % type(v).__name__
 
         max_length = self._max_length
