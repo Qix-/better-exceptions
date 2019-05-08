@@ -16,7 +16,7 @@ except ImportError:
 
     def load_module(name, filepath):
         with open(filepath, 'r') as fd:
-            imp.load_module('a_b', f, path, ('.py', 'U', imp.PY_SOURCE))
+            imp.load_module('a_b', fd, filepath, ('.py', 'U', imp.PY_SOURCE))
 
 from better_exceptions import interact, hook
 hook()
