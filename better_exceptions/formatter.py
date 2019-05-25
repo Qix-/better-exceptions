@@ -9,9 +9,8 @@ import re
 import sys
 import traceback
 
-from .color import STREAM, SUPPORTS_COLOR
+from .color import ENCODING, STREAM, SUPPORTS_COLOR, to_byte, to_unicode
 from .context import PY3
-from .encoding import ENCODING, to_byte, to_unicode
 from .repl import get_repl
 
 

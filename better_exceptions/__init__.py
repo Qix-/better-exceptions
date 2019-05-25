@@ -17,9 +17,8 @@ import logging
 import sys
 
 from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatter
-from .encoding import to_byte
 from .context import PY3
-from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM
+from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM, to_byte
 from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
 

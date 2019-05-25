@@ -6,18 +6,43 @@ stream.
 
 from __future__ import absolute_import
 
+import codecs
 import errno
 import os
 import struct
 import sys
 
 from .context import PY3
-from .encoding import to_byte as _byte
 
 
 STREAM = sys.stderr
+ENCODING = getattr(STREAM, "encoding", None) or "ascii"
 SHOULD_ENCODE = True
 SUPPORTS_COLOR = False
+
+
+def to_byte(val):
+    unicode_type = str if PY3 else unicode
+    if isinstance(val, unicode_type):
+        try:
+            return val.encode(ENCODING)
+        except UnicodeEncodeError:
+            if PY3:
+                return codecs.escape_decode(val)[0]
+            else:
+                return val.encode("unicode-escape").decode("string-escape")
+
+    return val
+
+
+def to_unicode(val):
+    if isinstance(val, bytes):
+        try:
+            return val.decode(ENCODING)
+        except UnicodeDecodeError:
+            return val.decode("unicode-escape")
+
+    return val
 
 
 def get_terminfo_file():
@@ -65,7 +90,7 @@ class ProxyBufferStreamWrapper(object):
         return getattr(self.__wrapped, name)
 
     def write(self, text):
-        data = _byte(text)
+        data = to_byte(text)
         self.__wrapped.buffer.write(data)
 
 
