@@ -65,6 +65,42 @@ unittest.result.TestResult._exc_info_to_string = patch
 
 Note that this uses an undocumented method override, so it is **not** guaranteed to work on all platforms or versions of Python.
 
+### Django Usage
+
+_Tested with Django 1.11_
+
+Create a middleware exception handler in a file like `myapp/middleware.py`:
+
+```python
+import sys
+from better_exceptions import excepthook
+
+
+class BetterExceptionsMiddleware(object):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        return self.get_response(request)
+
+    def process_exception(self, request, exception):
+        excepthook(exception.__class__, exception, sys.exc_info()[2])
+        return None
+```
+
+In `settings.py`, add your new class to the `MIDDLEWARE` list:
+
+```python
+MIDDLEWARE = [
+...
+    'myapp.middleware.BetterExceptionsMiddleware',
+]
+```
+
+example output:
+
+![image](https://user-images.githubusercontent.com/157132/56871937-5a07b480-69f1-11e9-9fd5-fac12382ebb7.png)
+
 ## Troubleshooting
 
 If you do not see beautiful exceptions, first make sure that the environment variable does exist. You can try `echo $BETTER_EXCEPTIONS` (Linux / OSX) or `echo %BETTER_EXCEPTIONS%` (Windows). On Linux and OSX, the `export` command does not add the variable permanently, you will probably need to edit the `~/.profile` file to make it persistent. On Windows, you need to open a new terminal after the `setx` command.

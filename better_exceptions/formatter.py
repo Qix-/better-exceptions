@@ -41,7 +41,7 @@ def isast(v):
 
 class ExceptionFormatter(object):
 
-    COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\"]|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
+    COMMENT_REGXP = re.compile(r'((?:(?:"(?:[^\\"]|(\\\\)*\\")*")|(?:\'(?:[^\\\']|(\\\\)*\\\')*\')|[^#])*)(#.*)$')
     CMDLINE_REGXP = re.compile(r'(?:[^\t ]*([\'"])(?:\\.|.)*(?:\1))[^\t ]*|([^\t ]+)')
 
     AST_ELEMENTS = {
@@ -115,7 +115,9 @@ class ExceptionFormatter(object):
     def format_value(self, v):
         try:
             v = repr(v)
-        except Exception:
+        except KeyboardInterrupt:
+            raise
+        except BaseException:
             v = u'<unprintable %s object>' % type(v).__name__
 
         max_length = self._max_length
