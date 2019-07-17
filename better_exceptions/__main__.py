@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 
 try:
     import importlib.machinery
@@ -20,6 +21,8 @@ except ImportError:
 
 from better_exceptions import interact, hook
 hook()
+if sys.version_info[0] == 3:
+    sys.__interactivehook__()
 
 parser = argparse.ArgumentParser(description='A Python REPL with better exceptions enabled', prog='python -m better_exceptions')
 parser.add_argument('-q', '--quiet', help="don't show a banner", action='store_true')
