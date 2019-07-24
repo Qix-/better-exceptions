@@ -19,6 +19,7 @@ STREAM = sys.stderr
 SHOULD_ENCODE = True
 SUPPORTS_COLOR = False
 
+
 def get_terminfo_file():
     term = os.getenv('TERM', None)
 
@@ -66,6 +67,7 @@ class ProxyBufferStreamWrapper(object):
     def write(self, text):
         data = _byte(text)
         self.__wrapped.buffer.write(data)
+
 
 if os.name == 'nt':
     from colorama import init as init_colorama, AnsiToWin32
