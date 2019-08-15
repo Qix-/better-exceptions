@@ -15,7 +15,6 @@ function test_str {
 	cmd="${1}"
 	shift
 	"${BETEXC_PYTHON}" -c"$cmd" "${@}" || true
-    echo ${BETEXC_PYTHON} $($BETEXC_PYTHON -V) "${@}"
 }
 
 test_str 'import better_exceptions; better_exceptions.hook(); a = 5; assert a > 10 # this should work fine' these extra arguments should be removed and should not show up 'in' the output
