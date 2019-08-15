@@ -231,10 +231,31 @@ SyntaxError: invalid syntax
 
 
 
-python2 test/test_attributes.py
+test/test_attributes.sh
 
 
-python2: can't open file 'test/test_attributes.py': [Errno 2] No such file or directory
+
+test/test_util/test_attributes.py
+
+Traceback (most recent call last):
+  File "test/test_util/test_attributes.py", line 15, in <module>
+    testc.v * len(testc.cc.e) / 0
+    |     |       |     |  -> 'e'
+    |     |       |     -> <__main__.C instance at 0xDEADBEEF>
+    |     |       -> <__main__.C instance at 0xDEADBEEF>
+    |     -> 2
+    -> <__main__.C instance at 0xDEADBEEF>
+ZeroDivisionError: integer division or modulo by zero
+
+Traceback (most recent call last):
+  File "test/test_util/test_attributes.py", line 15, in <module>
+    testc.v * len(testc.cc.e) / 0
+    |     |       |     |  -> 'e'
+    |     |       |     -> <__main__.C instance at 0xDEADBEEF>
+    |     |       -> <__main__.C instance at 0xDEADBEEF>
+    |     -> 2
+    -> <__main__.C instance at 0xDEADBEEF>
+ZeroDivisionError: integer division or modulo by zero
 
 
 

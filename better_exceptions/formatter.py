@@ -162,8 +162,11 @@ class ExceptionFormatter(object):
             if attr['type'] == 'attribute':
                 if n_attr == len(attrs)-1:
                     col -= attr['col']-1
-                #val = inspect.getattr_static(val, attr['attr'], '__empty') # py3
-                val = getattr(val, attr['attr'], '__empty') # py3
+
+                if PY3:
+                    val = inspect.getattr_static(val, attr['attr'], '__empty')
+                else:
+                    val = getattr(val, attr['attr'], '__empty')
 
         return first_text, col, val
 

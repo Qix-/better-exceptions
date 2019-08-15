@@ -43,7 +43,7 @@ function test_all {
 	test_case "$BETEXC_PYTHON" "test/test_truncating_disabled.py"
 	test_case "$BETEXC_PYTHON" "test/test_indentation_error.py"
 	test_case "$BETEXC_PYTHON" "test/test_syntax_error.py"
-	test_case "$BETEXC_PYTHON" "test/test_attributes.py"
+	test_case "test/test_attributes.sh"
 
 	if [[ "$BETEXC_PYTHON" == "python3" ]]; then
 		test_case "$BETEXC_PYTHON" "test/test_chaining.py"
