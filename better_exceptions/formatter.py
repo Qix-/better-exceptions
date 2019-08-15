@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import traceback
+import functools
 
 from .color import STREAM, SUPPORTS_COLOR
 from .context import PY3
@@ -110,7 +111,61 @@ class ExceptionFormatter(object):
         return self.colorize_comment(''.join(chunks))
 
     def get_relevant_names(self, source, tree):
-        return [node for node in ast.walk(tree) if isinstance(node, ast.Name)]
+        return [node for node in ast.walk(tree) if isinstance(node, (ast.Name, ast.Attribute))]
+
+    def get_nested_attribute(self, name_or_attribute, frame):
+        node = name_or_attribute
+        col = node.col_offset
+        first_text = None
+        text = None
+        last_col = None
+        val = None
+        attrs = [] # list of dict containing intermediate accessors
+        cpt = 0
+        while node:
+            if isinstance(node, ast.Attribute):
+                # get attr, return value
+                text = node.attr
+                last_col = len('.'+text)
+                col += last_col
+                attrs.append(dict(type='attribute', attr=text, col=last_col))
+                node = node.value
+            elif isinstance(node, ast.Call):
+                # @todo: get fun/args, return fun
+                pass
+            elif isinstance(node, ast.Subscript):
+                # @todo: get slice.value.(num|id), return value
+                pass
+            elif isinstance(node, ast.Name):
+                text = node.id
+                last_col = len(text)
+                col += last_col
+                if text in frame.f_locals:
+                    val = frame.f_locals.get(text, None)
+                elif text in frame.f_globals:
+                    val = frame.f_globals.get(text, None)
+
+                node = None
+            else:
+                node = None
+
+            if cpt == 0 and text:
+                first_text = text
+
+            cpt += 1
+
+        if not val or len(attrs) == 0:
+            col -= last_col
+            return text, col, val
+
+        for n_attr, attr in enumerate(attrs[::-1]):
+            if attr['type'] == 'attribute':
+                if n_attr == len(attrs)-1:
+                    col -= attr['col']-1
+                #val = inspect.getattr_static(val, attr['attr'], '__empty') # py3
+                val = getattr(val, attr['attr'], '__empty') # py3
+
+        return first_text, col, val
 
     def format_value(self, v):
         try:
@@ -126,17 +181,12 @@ class ExceptionFormatter(object):
         return v
 
     def get_relevant_values(self, source, frame, tree):
-        names = self.get_relevant_names(source, tree)
+        names_or_attributes = self.get_relevant_names(source, tree)
         values = []
 
-        for name in names:
-            text = name.id
-            col = name.col_offset
-            if text in frame.f_locals:
-                val = frame.f_locals.get(text, None)
-                values.append((text, col, self.format_value(val)))
-            elif text in frame.f_globals:
-                val = frame.f_globals.get(text, None)
+        for name_or_attr in names_or_attributes:
+            text, col, val = self.get_nested_attribute(name_or_attr, frame)
+            if val:
                 values.append((text, col, self.format_value(val)))
 
         values.sort(key=lambda e: e[1])
