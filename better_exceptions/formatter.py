@@ -34,6 +34,12 @@ THEME = {
 
 MAX_LENGTH = 128
 
+if os.environ.get("BETTER_EXCEPTIONS_HYPERLINKS") == "1":
+    HOSTNAME = os.uname()[1]
+    FORMAT_FILENAME = "\033]8;;file://{hostname}{filename}\033\\{filename}\033]8;;\033\\"
+else:
+    FORMAT_FILENAME = "{filename}"
+
 
 def isast(v):
     return inspect.isclass(v) and issubclass(v, ast.AST)
@@ -250,7 +256,8 @@ class ExceptionFormatter(object):
             lines.append(self._theme['inspect'](line) if self._colored else line)
         formatted = u'\n    '.join([to_unicode(x) for x in lines])
 
-        return (filename, lineno, function, formatted), color_source
+        formatted_filename = FORMAT_FILENAME.format(hostname=HOSTNAME, filename=filename, lineno=lineno)
+        return (formatted_filename, lineno, function, formatted), color_source
 
 
     def format_traceback(self, tb=None):
