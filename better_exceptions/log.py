@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import sys
 
-from logging import Logger, StreamHandler
+from logging import Logger, StreamHandler, FileHandler
 
 
 def patch():
@@ -14,7 +14,8 @@ def patch():
     if hasattr(logging, '_defaultFormatter'):
         logging._defaultFormatter.format_exception = logging_format_exception
 
-    patchables = [handler() for handler in logging._handlerList if isinstance(handler(), StreamHandler)]
+    patchables = [handler() for handler in logging._handlerList if isinstance(handler(), StreamHandler)
+                  if not isinstance(handler(), FileHandler)]
     patchables = [handler for handler in patchables if handler.stream == sys.stderr]
     patchables = [handler for handler in patchables if handler.formatter is not None]
     for handler in patchables:
