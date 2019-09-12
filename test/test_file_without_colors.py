@@ -1,8 +1,11 @@
 import better_exceptions
 import logging
+import sys
 
 better_exceptions.hook()
-logging.basicConfig(filename='example.log', level=logging.DEBUG)
+file_handler = logging.FileHandler(filename='example.log')
+stream_handler = logging.StreamHandler(sys.stdout)
+logging.basicConfig(level=logging.DEBUG, handlers=[file_handler, stream_handler])
 
 logger = logging.getLogger(__name__)
 
