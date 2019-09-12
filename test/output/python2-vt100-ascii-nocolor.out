@@ -219,3 +219,32 @@ SyntaxError: invalid syntax
 
 
 
+python2 test/test_file_without_colors.py
+
+
+INFO:__main__:Hello
+INFO:__main__:Hello
+NoneType
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_file_without_colors.py", line 19, in foo
+    cb()
+    -> <function bar3 at 0xDEADBEEF>
+  File "test/test_file_without_colors.py", line 36, in bar3
+    raise Exception('this is a test exception')
+Exception: this is a test exception
+
+ERROR:__main__:callback failed
+Traceback (most recent call last):
+  File "test/test_file_without_colors.py", line 19, in foo
+    cb()
+    -> <function bar4 at 0xDEADBEEF>
+  File "test/test_file_without_colors.py", line 41, in bar4
+    assert baz == 90
+           -> 52
+AssertionError: assert baz == 90
+
+
+
+
