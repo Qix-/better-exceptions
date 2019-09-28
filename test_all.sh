@@ -47,6 +47,7 @@ function test_all {
 	test_case "$BETEXC_PYTHON" "test/test_multilines_repr.py"
 	test_case "$BETEXC_PYTHON" "test/test_source_multilines.py"
 	test_case "$BETEXC_PYTHON" "test/test_source_strings.py"
+	test_case "$BETEXC_PYTHON" "test/test_attributes.py"
 }
 
 for encoding in ascii "UTF-8"; do
