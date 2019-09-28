@@ -16,7 +16,7 @@ from .context import PY3
 
 
 STREAM = sys.stderr
-ENCODING = getattr(STREAM, "encoding", None) or "ascii"
+ENCODING = getattr(STREAM, "encoding", None) or "utf-8"
 SHOULD_ENCODE = True
 SUPPORTS_COLOR = False
 
