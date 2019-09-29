@@ -34,9 +34,9 @@ THEME = {
 
 MAX_LENGTH = 128
 
-if os.environ.get("BETTER_EXCEPTIONS_HYPERLINKS") == "1":
+if os.environ.get("BETTER_EXCEPTIONS_HYPERLINKS", "") not in ("", "0"):
     HOSTNAME = os.uname()[1]
-    FORMAT_FILENAME = "\033]8;;file://{hostname}{filename}\033\\{filename}\033]8;;\033\\"
+    FORMAT_FILENAME = "\033]8;;file://{hostname}{filename} +{lineno}\033\\{filename}\033]8;;\033\\"
 else:
     HOSTNAME = None
     FORMAT_FILENAME = "{filename}"
