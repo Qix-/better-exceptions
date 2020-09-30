@@ -1,9 +1,10 @@
 import re
 from itertools import chain
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import splitext
+from os.path import basename, dirname, join, spiltext
+# from os.path import basename
+# from os.path import dirname
+# from os.path import join
+# from os.path import splitext
 from distutils.core import setup
 from distutils.command.build import build
 from setuptools.command.develop import develop
