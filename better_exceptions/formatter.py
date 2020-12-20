@@ -161,11 +161,16 @@ class ExceptionFormatter(object):
             pass
 
         if cmdline is None and os.name == 'posix':
-            from subprocess import CalledProcessError, check_output as spawn
+            from shutil import which
 
-            try:
-                cmdline = spawn(['ps', '-ww', '-p', str(os.getpid()), '-o', 'command='])
-            except CalledProcessError:
+            if which('ps'):
+                from subprocess import CalledProcessError, check_output as spawn
+
+                try:
+                    cmdline = spawn(['ps', '-ww', '-p', str(os.getpid()), '-o', 'command='])
+                except CalledProcessError:
+                    return ''
+            else:
                 return ''
         else:
             # current system doesn't have a way to get the command line
