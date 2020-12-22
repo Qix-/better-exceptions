@@ -67,34 +67,20 @@ Note that this uses an undocumented method override, so it is **not** guaranteed
 
 ### Django Usage
 
-_Tested with Django 1.11_
-
-Create a middleware exception handler in a file like `myapp/middleware.py`:
+In `settings.py`, add your new class to the `INSTALLED_APPS` and `MIDDLEWARE` lists:
 
 ```python
-import sys
-from better_exceptions import excepthook
-
-
-class BetterExceptionsMiddleware(object):
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        return self.get_response(request)
-
-    def process_exception(self, request, exception):
-        excepthook(exception.__class__, exception, sys.exc_info()[2])
-        return None
-```
-
-In `settings.py`, add your new class to the `MIDDLEWARE` list:
-
-```python
-MIDDLEWARE = [
-...
-    'myapp.middleware.BetterExceptionsMiddleware',
+# ...
+INSTALLED_APPS = [
+    # ...
+    "better_exceptions",
 ]
+# ...
+MIDDLEWARE = [
+    # ...
+    "better_exceptions.integrations.django.BetterExceptionsMiddleware",
+]
+# ...
 ```
 
 example output:
