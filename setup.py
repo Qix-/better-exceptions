@@ -53,7 +53,7 @@ with open('better_exceptions/__init__.py', 'r') as file:
 
 setup(
     name = 'better_exceptions',
-    packages = ['better_exceptions'],
+    packages = ['better_exceptions', 'better_exceptions.integrations'],
     version = version,
     description = 'Pretty and helpful exceptions, automatically',
     author = 'Josh Junon',
