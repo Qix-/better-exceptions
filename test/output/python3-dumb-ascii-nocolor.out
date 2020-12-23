@@ -46,7 +46,7 @@ TypeError: unsupported operand type(s) for /: 'int' and 'str'
 ./test/test_interactive.sh
 
 
-spawn python3 -m better_exceptions -q
+spawn python -m better_exceptions -q
 >>> import better_exceptions
 >>> def foo(a):
 ...     assert a > 10
@@ -214,7 +214,11 @@ python3 test/test_unittest_patch.py
 
     return a + b
 TypeError: unsupported operand type(s) for +: 'int' and 'str'
-    testMethod()
+    self._callTestMethod(testMethod)
+    |                    -> <bound method MyTestCase.test_add of <__main__.MyTestCase testMethod=test_add>>
+    -> <__main__.MyTestCase testMethod=test_add>
+  File "/removed/for/test/purposes.ext", line 633, in _callTestMethod
+    method()
     -> <bound method MyTestCase.test_add of <__main__.MyTestCase testMethod=test_add>>
   File "test/test_unittest_patch.py", line 15, in test_add
     self.assertEqual(add(1, "2"), 3)
