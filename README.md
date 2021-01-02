@@ -67,20 +67,52 @@ Note that this uses an undocumented method override, so it is **not** guaranteed
 
 ### Django Usage
 
-In `settings.py`, add your new class to the `INSTALLED_APPS` and `MIDDLEWARE` lists:
+In `settings.py`, add your new class to the `MIDDLEWARE` setting and update your logging configuration:
 
 ```python
 # ...
-INSTALLED_APPS = [
-    # ...
-    "better_exceptions",
-]
-# ...
+
 MIDDLEWARE = [
     # ...
     "better_exceptions.integrations.django.BetterExceptionsMiddleware",
 ]
+
 # ...
+
+from better_exceptions.integrations.django import skip_errors_filter
+
+# if you don't want to override LOGGING because you want to change the default,
+# you can vendor Django's default logging configuration and update it for 
+# better-exceptions. the default for Django 3.1.4 can be found here:
+# https://github.com/django/django/blob/3.1.4/django/utils/log.py#L13-L63
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'skip_errors': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': skip_errors_filter,
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            # without the 'filters' key, Django will log errors twice:
+            # one time from better-exceptions and one time from Django.
+            # with the 'skip_errors' filter, we remove the repeat log
+            # from Django, which is unformatted.
+            'filters': ['skip_errors'],
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': [
+                'console',
+            ],
+        }
+    }
+}
 ```
 
 example output:

@@ -1,6 +1,8 @@
 from sys import exc_info
 from better_exceptions import excepthook
 
+def skip_errors_filter(record):
+    return not record.exc_info
 
 class BetterExceptionsMiddleware:
     def __init__(self, get_response):
