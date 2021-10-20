@@ -35,6 +35,16 @@ function test_case {
 	return $?
 }
 
+function test_env() {
+		echo -e "\x1b[35;1m${filename}\x1b[m" >&2
+		test_case "python" "test/test_env.py"
+		export BETTER_EXCEPTIONS=0
+		test_case "python" "test/test_env.py"
+		export BETTER_EXCEPTIONS=1
+		test_case "python" "test/test_env.py"
+		unset BETTER_EXCEPTIONS
+}
+
 function test_all {
 	test_case "$PYTHON" "test/test.py"
 	test_case "$PYTHON" "test/test_color.py"
@@ -53,6 +63,19 @@ function test_all {
 		test_case "$PYTHON" "test/test_chaining.py"
 	fi
 }
+
+# Test env var loading. Package should be installed locally into default/active python
+export LANG="en_US.UTF-8"
+export LC_ALL="${LANG}"
+export PYTHONCOERCECLOCALE=0
+export PYTHONUTF8=0
+export TERM="dumb"
+export FORCE_COLOR=false
+export BETEXC_PYTHON="python"
+filename="test/output/python-dumb-UTF-8-nocolor.out"
+test_env | diff "$(pwd)/${filename}" -
+
+
 
 for encoding in ascii "UTF-8"; do
 	for term in xterm vt100 dumb; do

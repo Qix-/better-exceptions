@@ -1,0 +1,49 @@
+python test/test_env.py
+
+
+Traceback (most recent call last):
+  File "test/test_env.py", line 14, in <module>
+    shallow(bar, 15)
+  File "test/test_env.py", line 5, in shallow
+    deep(a + b)
+  File "test/test_env.py", line 10, in deep
+    assert val > 10 and foo == 60
+AssertionError
+
+
+
+python test/test_env.py
+
+
+Traceback (most recent call last):
+  File "test/test_env.py", line 14, in <module>
+    shallow(bar, 15)
+  File "test/test_env.py", line 5, in shallow
+    deep(a + b)
+  File "test/test_env.py", line 10, in deep
+    assert val > 10 and foo == 60
+AssertionError
+
+
+
+python test/test_env.py
+
+
+Traceback (most recent call last):
+  File "test/test_env.py", line 14, in <module>
+    shallow(bar, 15)
+    │       └ 2
+    └ <function shallow at 0xDEADBEEF>
+  File "test/test_env.py", line 5, in shallow
+    deep(a + b)
+    │    │   └ 15
+    │    └ 2
+    └ <function deep at 0xDEADBEEF>
+  File "test/test_env.py", line 10, in deep
+    assert val > 10 and foo == 60
+           │            └ 52
+           └ 17
+AssertionError: assert val > 10 and foo == 60
+
+
+
