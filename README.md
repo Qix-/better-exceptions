@@ -9,7 +9,7 @@ Pretty and more helpful exceptions in Python, automatically.
 Install `better_exceptions` via pip:
 
 ```console
-$ pip install better_exceptions
+pip install better_exceptions
 ```
 
 And set the `BETTER_EXCEPTIONS` environment variable to any value:
@@ -82,7 +82,7 @@ MIDDLEWARE = [
 from better_exceptions.integrations.django import skip_errors_filter
 
 # if you don't want to override LOGGING because you want to change the default,
-# you can vendor Django's default logging configuration and update it for 
+# you can vendor Django's default logging configuration and update it for
 # better-exceptions. the default for Django 3.1.4 can be found here:
 # https://github.com/django/django/blob/3.1.4/django/utils/log.py#L13-L63
 LOGGING = {
@@ -129,7 +129,8 @@ Make sure that you have not inadvertently deleted the `better_exceptions_hook.pt
 
 You can also try to manually activate the hook by adding `import better_exceptions; better_exceptions.hook()` at the beginning of your script.
 
-Finally, if you still can not get this module to work, [open a new issue](https://github.com/Qix-/better-exceptions/issues/new) by describing your problem precisely and detailing your configuration (Python and `better_exceptions` versions, OS, code snippet, interpeter, etc.) so that we can reproduce the bug you are experiencing.
+Finally, if you still can not get this module to work, [open a new issue](https://github.com/Qix-/better-exceptions/issues/new) by describing your problem precisely and detailing your configuration (Python and `better_exceptions` versions, OS, code snippet, interpreter, etc.) so that we can reproduce the bug you are experiencing.
 
 # License
+
 Copyright &copy; 2017, Josh Junon. Licensed under the [MIT license](LICENSE.txt).
