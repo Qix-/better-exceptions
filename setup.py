@@ -60,6 +60,7 @@ setup(
     author_email = 'josh@junon.me',
     url = 'https://github.com/qix-/better-exceptions',
     download_url = 'https://github.com/qix-/better-exceptions/archive/{}.tar.gz'.format(version),
+    license = 'MIT',
     keywords = ['pretty', 'better', 'exceptions', 'exception', 'error', 'local', 'debug', 'debugging', 'locals'],
     classifiers = [],
     extras_require = {
