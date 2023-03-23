@@ -10,7 +10,6 @@ import sys
 import traceback
 
 from .color import ENCODING, STREAM, SUPPORTS_COLOR, to_byte, to_unicode
-from .context import PY3
 from .repl import get_repl
 
 
@@ -245,11 +244,6 @@ class ExceptionFormatter(object):
                 line += (' ' * (pc - index)) + self._pipe_char
                 index = pc + 1
 
-            if not PY3 and isinstance(val, str):
-                # In Python2 the Non-ASCII value will be the escaped string,
-                # use string-escape to decode the string to show the text in human way.
-                val = to_unicode(val.decode("string-escape"))
-
             line += u'{}{} {}'.format((' ' * (col - index)), self._cap_char, val)
             lines.append(self._theme['inspect'](line) if self._colored else line)
         formatted = u'\n    '.join([to_unicode(x) for x in lines])
@@ -297,7 +291,7 @@ class ExceptionFormatter(object):
 
         seen.add(id(exc_value))
 
-        if exc_value and PY3:
+        if exc_value:
             if exc_value.__cause__ is not None and id(exc_value.__cause__) not in seen:
                 for text in self._format_exception(exc_value.__cause__,exc_value.__cause__.__traceback__, seen=seen):
                     yield text
