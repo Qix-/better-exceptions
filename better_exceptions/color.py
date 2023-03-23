@@ -12,8 +12,6 @@ import os
 import struct
 import sys
 
-from .context import PY3
-
 
 STREAM = sys.stderr
 ENCODING = getattr(STREAM, "encoding", None) or "utf-8"
@@ -22,15 +20,12 @@ SUPPORTS_COLOR = False
 
 
 def to_byte(val):
-    unicode_type = str if PY3 else unicode
+    unicode_type = str
     if isinstance(val, unicode_type):
         try:
             return val.encode(ENCODING)
         except UnicodeEncodeError:
-            if PY3:
-                return codecs.escape_decode(val)[0]
-            else:
-                return val.encode("unicode-escape").decode("string-escape")
+            return codecs.escape_decode(val)[0]
 
     return val
 
@@ -101,13 +96,12 @@ if os.name == 'nt':
 
     stream = sys.stderr
 
-    if PY3:
-        # Colorama cannot work with bytes-string
-        # The stream is wrapped so that encoding of the stream is done after
-        # (once Colorama found ANSI codes and converted them to win32 calls)
-        # See issue #23 for more information
-        stream = ProxyBufferStreamWrapper(stream)
-        SHOULD_ENCODE = False
+    # Colorama cannot work with bytes-string
+    # The stream is wrapped so that encoding of the stream is done after
+    # (once Colorama found ANSI codes and converted them to win32 calls)
+    # See issue #23 for more information
+    stream = ProxyBufferStreamWrapper(stream)
+    SHOULD_ENCODE = False
 
     STREAM = AnsiToWin32(stream).stream
     SUPPORTS_COLOR = True
