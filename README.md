@@ -19,6 +19,12 @@ export BETTER_EXCEPTIONS=1  # Linux / OSX
 setx BETTER_EXCEPTIONS 1    # Windows
 ```
 
+To disable coloring, set the following environment variable:
+```bash
+export DISABLE_COLOR=True # Linux / OSX
+setx DISABLE_COLOR=True
+```
+
 That's it!
 
 ### Python REPL (Interactive Shell)

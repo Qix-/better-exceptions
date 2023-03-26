@@ -141,3 +141,6 @@ else:
 
                         if max_colors >= 8:
                             SUPPORTS_COLOR = True
+
+if os.getenv('DISABLE_COLOR', None) == "True":
+    SUPPORTS_COLOR = False
