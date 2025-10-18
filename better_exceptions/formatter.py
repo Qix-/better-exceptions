@@ -94,11 +94,19 @@ class ExceptionFormatter(object):
             if nodecls == ast.Name and node.id in self.AST_ELEMENTS['builtins']:
                 displayed_nodes.append((node, node.id, 'builtin'))
 
-            if nodecls == ast.Str:
+            # Old-style AST - removed in python 3.14
+            if hasattr(ast, "Str") and nodecls == ast.Str:
                 displayed_nodes.append((node, "'{}'".format(node.s), 'literal'))
 
-            if nodecls == ast.Num:
+            if hasattr(ast, "Num") and nodecls == ast.Num:
                 displayed_nodes.append((node, str(node.n), 'literal'))
+
+            # New-style since, used since python 3.8
+            if hasattr(ast, "Constant") and nodecls == ast.Constant:
+                if isinstance(node.value, str):
+                    displayed_nodes.append((node, "'{}'".format(node.value), 'literal'))
+                else:
+                    displayed_nodes.append((node, str(node.value), 'literal'))
 
         displayed_nodes.sort(key=lambda elem: elem[0].col_offset)
 
