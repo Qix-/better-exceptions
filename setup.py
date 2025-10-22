@@ -57,7 +57,7 @@ setup(
     version = version,
     description = 'Pretty and helpful exceptions, automatically',
     author = 'Josh Junon',
-    author_email = 'josh@junon.me',
+    author_email = 'pypi@josh.junon.me',
     url = 'https://github.com/qix-/better-exceptions',
     download_url = 'https://github.com/qix-/better-exceptions/archive/{}.tar.gz'.format(version),
     license = 'MIT',

@@ -22,7 +22,7 @@ from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
 
 
-__version__ = '0.3.3'
+__version__ = '0.4.0'
 
 
 THEME = THEME.copy()  # Users customizing the theme should not impact core
