@@ -108,6 +108,9 @@ class ExceptionFormatter(object):
                     displayed_nodes.append((node, "'{}'".format(node.s), 'literal'))
                 if hasattr(ast, "Num") and nodecls == ast.Num:
                     displayed_nodes.append((node, str(node.n), 'literal'))
+                # Python 3.7 uses NameConstant for True/False/None
+                if hasattr(ast, "NameConstant") and nodecls == ast.NameConstant:
+                    displayed_nodes.append((node, str(node.value), 'literal'))
 
 
 
