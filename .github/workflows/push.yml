@@ -20,8 +20,8 @@ jobs:
               # Test Python 3.7 on older OS versions that support it
               - os: ubuntu-22.04
                 python-version: "3.7"
-              - os: macos-13
-                python-version: "3.7"
+              # Skip Python 3.7 on macOS - not available on ARM64 runners
+              # and older Intel runners (macos-12, macos-13) have issues
           fail-fast: false
         steps:
         - uses: actions/checkout@v2
