@@ -34,7 +34,22 @@ def print_test_error():
     # a test which raised an unexpected exception."
     assert isinstance(error, str)
     lines = error.splitlines()
-    print("\n".join(lines[4:]))  # remove '/removed/for/test/purposes.py'
+
+    # Filter out version-specific differences
+    # Skip everything until we hit the actual test frame (test_add)
+    # This avoids unittest internal differences between Python versions
+    filtered_lines = []
+    in_test_frame = False
+    for line in lines[4:]:  # remove '/removed/for/test/purposes.py'
+        # Start including lines once we hit the test frame
+        # there is some diff between py versions.
+        if 'in test_add' in line:
+            in_test_frame = True
+
+        if in_test_frame:
+            filtered_lines.append(line)
+
+    print("\n".join(filtered_lines))
 
 
 def main():
@@ -42,10 +57,7 @@ def main():
 
     def patch(self, err, test):
         lines = better_exceptions.format_exception(*err)
-        if sys.version_info[0] == 2:
-            return u"".join(lines).encode("utf-8")
-        else:
-            return u"".join(lines)
+        return u"".join(lines)
 
     unittest.result.TestResult._exc_info_to_string = patch
 
