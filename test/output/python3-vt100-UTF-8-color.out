@@ -208,3 +208,58 @@ SyntaxError: invalid syntax
 
 
 
+python3 test/test_unittest_patch.py
+
+
+
+  File "/removed/for/test/purposes.ext", line 15, in test_add
+    self.assertEqual(add([31m1[m, [31m'2'[m), [31m3[m)
+    [36m│                └ <function add at 0xDEADBEEF>[m
+    [36m└ <__main__.MyTestCase testMethod=test_add>[m
+  File "/removed/for/test/purposes.ext", line 10, in add
+    [33;1mreturn[m a + b
+    [36m       │   └ '2'[m
+    [36m       └ 1[m
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+
+
+python3 test/test_chaining.py
+
+
+Traceback (most recent call last):
+  File "/removed/for/test/purposes.ext", line 11, in cause
+    div(x, y)
+    [36m│   │  └ 0[m
+    [36m│   └ 1[m
+    [36m└ <function div at 0xDEADBEEF>[m
+  File "/removed/for/test/purposes.ext", line 7, in div
+    x / y
+    [36m│   └ 0[m
+    [36m└ 1[m
+ZeroDivisionError: division by zero
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/removed/for/test/purposes.ext", line 17, in context
+    cause(x, y)
+    [36m│     │  └ 0[m
+    [36m│     └ 1[m
+    [36m└ <function cause at 0xDEADBEEF>[m
+  File "/removed/for/test/purposes.ext", line 13, in cause
+    [33;1mraise[m [35;1mValueError[m([31m'Division error'[m)
+ValueError: Division error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/removed/for/test/purposes.ext", line 21, in <module>
+    context([31m1[m, [31m0[m)
+    [36m└ <function context at 0xDEADBEEF>[m
+  File "/removed/for/test/purposes.ext", line 19, in context
+    [33;1mraise[m [35;1mValueError[m([31m'Cause error'[m) from e
+ValueError: Cause error
+
+
+
