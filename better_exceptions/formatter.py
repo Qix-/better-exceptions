@@ -282,7 +282,12 @@ class ExceptionFormatter(object):
 
             tb = tb.tb_next
 
-        lines = traceback.format_list(frames)
+        # Format frames manually instead of using traceback.format_list()
+        # Python 3.13+ changed format_list() to only show the first line of multiline text
+        lines = []
+        for filename, lineno, name, text in frames:
+            lines.append('  File "{}", line {}, in {}\n'.format(filename, lineno, name))
+            lines.append('    {}\n'.format(text))
 
         return ''.join(lines), final_source
 
