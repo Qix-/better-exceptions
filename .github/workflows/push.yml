@@ -29,13 +29,10 @@ jobs:
           uses: actions/setup-python@v6
           with:
               python-version: ${{ matrix.python-version }}
-        - name: Install dependencies (Linux)
+        - name: Install expect (Linux only)
           if: runner.os == 'Linux'
-          run: |
-            sudo apt-get install -y expect
-            pip install -e .
-        - name: Install dependencies (Windows/macOS)
-          if: runner.os != 'Linux'
+          run: sudo apt-get install -y expect
+        - name: Install package
           run: pip install -e .
         - name: Run tests
           run: |
