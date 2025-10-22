@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import traceback
+import warnings
 
 from .color import ENCODING, STREAM, SUPPORTS_COLOR, to_byte, to_unicode
 from .repl import get_repl
@@ -93,19 +94,22 @@ class ExceptionFormatter(object):
             if nodecls == ast.Name and node.id in self.AST_ELEMENTS['builtins']:
                 displayed_nodes.append((node, node.id, 'builtin'))
 
-            if hasattr(ast, "Constant"):
-                if nodecls == ast.Constant:
-                    # New-style since, used since python 3.8
-                    if isinstance(node.value, str):
-                        displayed_nodes.append((node, "'{}'".format(node.value), 'literal'))
-                    else:
-                        displayed_nodes.append((node, str(node.value), 'literal'))
-            else:
-                # Old-style AST - removed in python 3.14
+            if hasattr(ast, "Constant") and nodecls == ast.Constant:
+                # New-style AST, used since python 3.8
+                if isinstance(node.value, str):
+                    displayed_nodes.append((node, "'{}'".format(node.value), 'literal'))
+                else:
+                    displayed_nodes.append((node, str(node.value), 'literal'))
+
+            # Old-style AST - removed in python 3.14
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", DeprecationWarning)
                 if hasattr(ast, "Str") and nodecls == ast.Str:
                     displayed_nodes.append((node, "'{}'".format(node.s), 'literal'))
                 if hasattr(ast, "Num") and nodecls == ast.Num:
                     displayed_nodes.append((node, str(node.n), 'literal'))
+
+
 
         displayed_nodes.sort(key=lambda elem: elem[0].col_offset)
 
