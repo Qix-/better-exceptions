@@ -17,7 +17,6 @@ import logging
 import sys
 
 from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatter
-from .context import PY3
 from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM, to_byte
 from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
@@ -33,10 +32,7 @@ def write_stream(data, stream=STREAM):
     if SHOULD_ENCODE:
         data = to_byte(data)
 
-        if PY3:
-            stream.buffer.write(data)
-        else:
-            stream.write(data)
+        stream.buffer.write(data)
     else:
         stream.write(data)
 
