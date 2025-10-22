@@ -23,7 +23,12 @@ function normalize {
 	# since the addresses change from run to run and break diff testing
 	#
 	# we also filter a number of other version-specific, spurious output lines
-	cat | sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' | sed 's|<module '"'[^']*' from '[^']*'>|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' | sed 's|File "/[^"]*"|File "/removed/for/test/purposes.ext"|g' | grep -v "bash: warning:" | grep -v 'now exiting BetterExceptionsConsole'
+	cat \
+		| sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' \
+		| sed 's|<module '"'[^']*' from '[^']*'>|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' \
+		| sed 's|File "[^"]*\.py"|File "/removed/for/test/purposes.ext"|g' \
+		| grep -v "bash: warning:" \
+		| grep -v 'now exiting BetterExceptionsConsole'
 }
 
 function test_case {
@@ -49,13 +54,8 @@ function test_all {
 	test_case "$PYTHON" "test/test_truncating_disabled.py"
 	test_case "$PYTHON" "test/test_indentation_error.py"
 	test_case "$PYTHON" "test/test_syntax_error.py"
-	# TODO(qix-): The unittest patch tests are volatile and trip up CI. Need a better way to normalize them.
-	#test_case "$PYTHON" "test/test_unittest_patch.py"
-
-	# TODO(qix-): For some reason this one trips up CI quite a bit except on Python 3.12.
-	#if [[ "$PYTHON" == "python3" ]]; then
-	#	test_case "$PYTHON" "test/test_chaining.py"
-	#fi
+	test_case "$PYTHON" "test/test_unittest_patch.py"
+	test_case "$PYTHON" "test/test_chaining.py"
 }
 
 for encoding in ascii "UTF-8"; do
@@ -73,7 +73,12 @@ for encoding in ascii "UTF-8"; do
 				exec > "$filename"
 				test_all "$filename"
 			else
-				test_all | diff "$(pwd)/${filename}" -
+				# Python 3.7 has different caret position in syntax errors - ignore the ^.
+				if [[ "$($PYTHON --version 2>&1)" =~ "Python 3.7" ]]; then
+					test_all | diff -I '^ *\^$' "$(pwd)/${filename}" -
+				else
+					test_all | diff "$(pwd)/${filename}" -
+				fi
 			fi
 		done
 	done

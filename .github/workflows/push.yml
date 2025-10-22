@@ -1,27 +1,39 @@
 name: Build and Lint
 on:
   push:
-    branches:
-    - master
   pull_request:
 
 jobs:
     test:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+            os: [ubuntu-latest, windows-latest, macos-latest]
+            python-version: ["3.7", "3.12", "3.x"]  # 3.x = latest stable
+            exclude:
+              # Python 3.7 not available on ubuntu-latest (24.04) and macos-latest (14)
+              - os: ubuntu-latest
+                python-version: "3.7"
+              - os: macos-latest
+                python-version: "3.7"
+            include:
+              # Test Python 3.7 on older OS versions that support it
+              - os: ubuntu-22.04
+                python-version: "3.7"
+              # Skip Python 3.7 on macOS - not available on ARM64 runners
+              # and older Intel runners (macos-12, macos-13) have issues
           fail-fast: false
         steps:
         - uses: actions/checkout@v2
         - name: Set up Python
           uses: actions/setup-python@v6
           with:
-              python-version: ${{matrix.python-version}}
-        - name: Install dependencies
-          run: |
-            sudo apt-get install -y expect
-            pip install -e .
+              python-version: ${{ matrix.python-version }}
+        - name: Install expect (Linux only)
+          if: runner.os == 'Linux'
+          run: sudo apt-get install -y expect
+        - name: Install package
+          run: pip install -e .
         - name: Run tests
           run: |
             ./test_all.sh
