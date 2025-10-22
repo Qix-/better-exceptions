@@ -1,9 +1,9 @@
 import io
-import sys
 import unittest
 import better_exceptions
 
-STREAM = io.BytesIO() if sys.version_info[0] == 2 else io.StringIO()
+
+STREAM = io.StringIO()
 
 
 def add(a, b):

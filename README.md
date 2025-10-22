@@ -50,14 +50,11 @@ While using `better_exceptions` in production, do not forget to unset the `BETTE
 If you want to use `better_exceptions` to format `unittest`'s exception output, you can use the monkey patch below:
 
 ```python
-import sys
 import unittest
 import better_exceptions
 
 def patch(self, err, test):
     lines = better_exceptions.format_exception(*err)
-    if sys.version_info[0] == 2:
-        return u"".join(lines).encode("utf-8")
     return "".join(lines)
 
 unittest.result.TestResult._exc_info_to_string = patch
