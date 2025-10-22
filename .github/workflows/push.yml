@@ -1,0 +1,27 @@
+name: Build and Lint
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            python-version: [3.9, 3.10, 3.11, 3.12, 3.13, 3.14]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: ${{matrix.python-version}}
+            - name: Install dependencies
+              run: |
+                apt-get update
+                apt-get install -y expect
+                pip install -e .
+            - name: Run tests
+              run: |
+                ./test_all.sh
