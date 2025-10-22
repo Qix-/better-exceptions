@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "better_exceptions-xl0"
+dynamic = ["version"]
+description = "Pretty and helpful exceptions, automatically"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Josh Junon", email = "pypi@josh.junon.me"}
+]
+keywords = [
+    "pretty",
+    "better",
+    "exceptions",
+    "exception",
+    "error",
+    "local",
+    "debug",
+    "debugging",
+    "locals"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Debuggers",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "colorama; sys_platform == 'win32'"
+]
+
+[project.urls]
+Homepage = "https://github.com/qix-/better-exceptions"
+Repository = "https://github.com/qix-/better-exceptions"
+Download = "https://github.com/qix-/better-exceptions/releases"
+
+[tool.setuptools]
+packages = ["better_exceptions", "better_exceptions.integrations"]
+
+[tool.setuptools.dynamic]
+version = {attr = "better_exceptions.__version__"}

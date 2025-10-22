@@ -7,21 +7,26 @@ on:
 
 jobs:
     test:
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         strategy:
           matrix:
-            python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+            os: [ubuntu-latest, windows-latest, macos-latest]
+            python-version: ["3.7", "3.12", "3.x"]  # 3.x = latest stable
           fail-fast: false
         steps:
         - uses: actions/checkout@v2
         - name: Set up Python
           uses: actions/setup-python@v6
           with:
-              python-version: ${{matrix.python-version}}
-        - name: Install dependencies
+              python-version: ${{ matrix.python-version }}
+        - name: Install dependencies (Linux)
+          if: runner.os == 'Linux'
           run: |
             sudo apt-get install -y expect
             pip install -e .
+        - name: Install dependencies (Windows/macOS)
+          if: runner.os != 'Linux'
+          run: pip install -e .
         - name: Run tests
           run: |
             ./test_all.sh
