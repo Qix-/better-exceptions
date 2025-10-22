@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "better_exceptions-xl0"
+name = "better_exceptions"
 dynamic = ["version"]
 description = "Pretty and helpful exceptions, automatically"
 readme = "README.md"
