@@ -20,6 +20,7 @@ from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatte
 from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM, to_byte
 from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
+from .integrations.ipython import patch as patch_ipython
 
 
 __version__ = '0.4.0'
@@ -54,6 +55,9 @@ def hook():
 
     logging.setLoggerClass(BetExcLogger)
     patch_logging()
+
+    # IPython handles exceptions internally, so patch it separately when present.
+    patch_ipython(excepthook)
 
     if hasattr(sys, 'ps1'):
         print('WARNING: better_exceptions will only inspect code from the command line\n'
