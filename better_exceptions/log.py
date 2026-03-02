@@ -9,16 +9,18 @@ def patch():
     import logging
     from . import format_exception
 
-    logging_format_exception = lambda exc_info: u''.join(format_exception(*exc_info))
+    logging_format_exception_colored = lambda exc_info: u''.join(format_exception(*exc_info, colored=True))
+    logging_format_exception_plain = lambda exc_info: u''.join(format_exception(*exc_info, colored=False))
 
-    if hasattr(logging, '_defaultFormatter'):
-        logging._defaultFormatter.format_exception = logging_format_exception
-
-    patchables = [handler() for handler in logging._handlerList if isinstance(handler(), StreamHandler)]
-    patchables = [handler for handler in patchables if handler.stream == sys.stderr]
+    patchables = [handler() for handler in logging._handlerList if handler() is not None]
     patchables = [handler for handler in patchables if handler.formatter is not None]
+
     for handler in patchables:
-        handler.formatter.formatException = logging_format_exception
+        # Keep terminal stderr colorful, but keep persisted logs plain text.
+        if isinstance(handler, StreamHandler) and getattr(handler, 'stream', None) == sys.stderr:
+            handler.formatter.formatException = logging_format_exception_colored
+        else:
+            handler.formatter.formatException = logging_format_exception_plain
 
 
 class BetExcLogger(Logger):
