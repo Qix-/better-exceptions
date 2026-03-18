@@ -16,7 +16,7 @@ from __future__ import print_function
 import logging
 import sys
 
-from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, ExceptionFormatter
+from .formatter import THEME, MAX_LENGTH, PIPE_CHAR, CAP_CHAR, SECRETS, ExceptionFormatter
 from .color import SUPPORTS_COLOR, SHOULD_ENCODE, STREAM, to_byte
 from .log import BetExcLogger, patch as patch_logging
 from .repl import interact, get_repl
@@ -40,7 +40,7 @@ def write_stream(data, stream=STREAM):
 def format_exception(exc, value, tb):
     # Rebuild each time to take into account any changes made by the user to the global parameters
     formatter = ExceptionFormatter(colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
-                                   pipe_char=PIPE_CHAR, cap_char=CAP_CHAR)
+                                   pipe_char=PIPE_CHAR, cap_char=CAP_CHAR, secrets=SECRETS)
     return list(formatter.format_exception(exc, value, tb))
 
 

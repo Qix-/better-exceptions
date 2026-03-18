@@ -31,6 +31,7 @@ THEME = {
 }
 
 MAX_LENGTH = 128
+SECRETS = []
 
 
 def isast(v):
@@ -48,12 +49,13 @@ class ExceptionFormatter(object):
     }
 
     def __init__(self, colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
-                       pipe_char=PIPE_CHAR, cap_char=CAP_CHAR):
+                       pipe_char=PIPE_CHAR, cap_char=CAP_CHAR, secrets=SECRETS):
         self._colored = colored
         self._theme = theme
         self._max_length = max_length
         self._pipe_char = pipe_char
         self._cap_char = cap_char
+        self._secrets = secrets.copy()
 
     def colorize_comment(self, source):
         match = self.COMMENT_REGXP.match(source)
@@ -125,6 +127,9 @@ class ExceptionFormatter(object):
             raise
         except BaseException:
             v = u'<unprintable %s object>' % type(v).__name__
+
+        for pattern in self._secrets:
+            v = v.replace(repr(pattern)[1:-1], u'<hidden>')
 
         max_length = self._max_length
         if max_length is not None and len(v) > max_length:
@@ -324,8 +329,11 @@ class ExceptionFormatter(object):
         if not str(value) and exc_type is AssertionError:
             value.args = (colored_source,)
         title = traceback.format_exception_only(exc_type, value)
-
-        yield u''.join(title).strip() + u'\n'
+        title = u''.join(title).strip() + u'\n'
+        for pattern in self._secrets:
+            title = title.replace(repr(pattern)[1:-1], u'<hidden>')
+            title = title.replace(pattern, u'<hidden>')
+        yield title
 
     def format_exception(self, exc, value, tb):
         for line in self._format_exception(value, tb):

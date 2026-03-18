@@ -45,6 +45,18 @@ better_exceptions.MAX_LENGTH = None
 
 While using `better_exceptions` in production, do not forget to unset the `BETTER_EXCEPTIONS` variable to avoid leaking sensitive data in your logs.
 
+Alternatively, if you still want to have more context in the production logs, but don't want to leak the passwords or other secrets, you can filter them out:
+
+```python
+import better_exceptions
+import better_exceptions.formatter
+
+better_exceptions.hook()
+better_exceptions.formatter.SECRETS.append("myS3cr3tP@ss!")
+```
+
+Any value added to `SECRETS` will be replaced with `<hidden>` wherever it appears in the exception output, including variable values and the exception message.
+
 ### Use with unittest
 
 If you want to use `better_exceptions` to format `unittest`'s exception output, you can use the monkey patch below:

@@ -153,6 +153,21 @@ AssertionError: assert baz == 90
 
 
 
+python3 test/test_secrets.py
+
+
+Traceback (most recent call last):
+  File "/removed/for/test/purposes.ext", line 13, in <module>
+    connect_to_db(password)
+    |             -> '<hidden>'
+    -> <function connect_to_db at 0xDEADBEEF>
+  File "/removed/for/test/purposes.ext", line 10, in connect_to_db
+    raise TimeoutError("tried to connect to " + repr(connection_string))
+                                                     -> 'foo bar <hidden> baz'
+TimeoutError: tried to connect to 'foo bar <hidden> baz'
+
+
+
 python3 test/test_truncating.py
 
 
