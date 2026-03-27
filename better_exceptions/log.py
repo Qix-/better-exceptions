@@ -9,15 +9,27 @@ def patch():
     import logging
     from . import format_exception
 
-    logging_format_exception = lambda exc_info: u''.join(format_exception(*exc_info))
+    # Use colored=False for logging output. Python's logging module caches
+    # formatted exception text in record.exc_text, which is shared across all
+    # handlers. If a StreamHandler formats with ANSI color codes, that cached
+    # text leaks into FileHandlers and other non-terminal destinations.
+    # Unhandled exceptions still render with colors via sys.excepthook.
+    def logging_format_exception(exc_info):
+        return u''.join(format_exception(*exc_info, colored=False))
 
     if hasattr(logging, '_defaultFormatter'):
-        logging._defaultFormatter.format_exception = logging_format_exception
+        logging._defaultFormatter.formatException = logging_format_exception
 
-    patchables = [handler() for handler in logging._handlerList if isinstance(handler(), StreamHandler)]
-    patchables = [handler for handler in patchables if handler.stream == sys.stderr]
-    patchables = [handler for handler in patchables if handler.formatter is not None]
-    for handler in patchables:
+    for handler_ref in logging._handlerList:
+        handler = handler_ref()
+        if handler is None:
+            continue
+        if not isinstance(handler, StreamHandler):
+            continue
+        if handler.stream != sys.stderr:
+            continue
+        if handler.formatter is None:
+            continue
         handler.formatter.formatException = logging_format_exception
 
 

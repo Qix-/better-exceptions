@@ -135,20 +135,20 @@ ERROR:__main__:callback failed
 Traceback (most recent call last):
   File "/removed/for/test/purposes.ext", line 16, in foo
     cb()
-    [36m└ <function bar3 at 0xDEADBEEF>[m
+    └ <function bar3 at 0xDEADBEEF>
   File "/removed/for/test/purposes.ext", line 33, in bar3
-    [33;1mraise[m [35;1mException[m([31m'this is a test exception'[m)
+    raise Exception('this is a test exception')
 Exception: this is a test exception
 
 ERROR:__main__:callback failed
 Traceback (most recent call last):
   File "/removed/for/test/purposes.ext", line 16, in foo
     cb()
-    [36m└ <function bar4 at 0xDEADBEEF>[m
+    └ <function bar4 at 0xDEADBEEF>
   File "/removed/for/test/purposes.ext", line 38, in bar4
-    [33;1massert[m baz == [31m90[m
-    [36m       └ 52[m
-AssertionError: [33;1massert[m baz == [31m90[m
+    assert baz == 90
+           └ 52
+AssertionError: assert baz == 90
 
 
 
