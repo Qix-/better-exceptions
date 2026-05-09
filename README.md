@@ -34,6 +34,20 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython
+
+IPython handles tracebacks without using `sys.excepthook`, so the normal
+`BETTER_EXCEPTIONS=1` hook is not enough once the IPython shell is already
+running. Load the bundled extension to use `better_exceptions` for IPython
+tracebacks:
+
+```ipython
+In [1]: %load_ext better_exceptions
+```
+
+You can also call `better_exceptions.hook()` from an IPython startup file; when
+it detects an active IPython shell, it will install the same traceback hook.
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:
