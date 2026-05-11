@@ -37,6 +37,12 @@ function test_case {
 	return $?
 }
 
+function assert_case {
+	echo -e "\x1b[36;1m   " "$@" "\x1b[m" 1>&2
+
+	"$@"
+}
+
 function test_all {
 	test_case "$PYTHON" "test/test.py"
 	test_case "$PYTHON" "test/test_color.py"
@@ -49,6 +55,7 @@ function test_all {
 	test_case "$PYTHON" "test/test_truncating_disabled.py"
 	test_case "$PYTHON" "test/test_indentation_error.py"
 	test_case "$PYTHON" "test/test_syntax_error.py"
+	assert_case "$PYTHON" "test/test_file_logging.py"
 	# TODO(qix-): The unittest patch tests are volatile and trip up CI. Need a better way to normalize them.
 	#test_case "$PYTHON" "test/test_unittest_patch.py"
 
