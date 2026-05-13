@@ -212,10 +212,17 @@ class ExceptionFormatter(object):
         return source
 
     def get_traceback_information(self, tb):
-        frame_info = inspect.getframeinfo(tb)
-        filename = frame_info.filename
-        lineno = frame_info.lineno
-        function = frame_info.function
+        try:
+            frame_info = inspect.getframeinfo(tb)
+            filename = frame_info.filename
+            lineno = frame_info.lineno
+            function = frame_info.function
+        except OSError:
+            # inspect.getframeinfo can fail when the cwd is unavailable; degrade gracefully
+            filename = tb.tb_frame.f_code.co_filename
+            lineno = tb.tb_lineno
+            function = tb.tb_frame.f_code.co_name
+            return filename, lineno, function, '', '', []
 
         repl = get_repl()
         if repl is not None and filename in repl.entries:
