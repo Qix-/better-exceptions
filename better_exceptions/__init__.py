@@ -54,8 +54,24 @@ def hook():
 
     logging.setLoggerClass(BetExcLogger)
     patch_logging()
+    _install_ipython_hook()
 
     if hasattr(sys, 'ps1'):
         print('WARNING: better_exceptions will only inspect code from the command line\n'
               '         when using: `python -m better_exceptions\'. Otherwise, only code\n'
               '         loaded from files will be inspected!', file=sys.stderr)
+
+
+def load_ipython_extension(ipython):
+    from .integrations.ipython import load_ipython_extension
+    return load_ipython_extension(ipython)
+
+
+def unload_ipython_extension(ipython):
+    from .integrations.ipython import unload_ipython_extension
+    return unload_ipython_extension(ipython)
+
+
+def _install_ipython_hook():
+    from .integrations.ipython import install
+    install()
