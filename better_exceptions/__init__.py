@@ -47,13 +47,36 @@ def format_exception(exc, value, tb):
 def excepthook(exc, value, tb):
     formatted = u''.join(format_exception(exc, value, tb))
     write_stream(formatted, STREAM)
-
-
 def hook():
     sys.excepthook = excepthook
 
     logging.setLoggerClass(BetExcLogger)
     patch_logging()
+
+    # Check if running in IPython
+    try:
+        from IPython.core.interactiveshell import InteractiveShell
+        if InteractiveShell.initialized():
+            shell = InteractiveShell.instance()
+            # Save the original showtraceback
+            original_showtraceback = shell.showtraceback
+            
+            def ipython_showtraceback(*args, **kwargs):
+                # Use better_exceptions formatter
+                try:
+                    exctype, value, tb = sys.exc_info()
+                    if exctype is not None:
+                        formatted = u''.join(format_exception(exctype, value, tb))
+                        write_stream(formatted, STREAM)
+                        return
+                except Exception:
+                    pass
+                # Fallback to original if something goes wrong
+                return original_showtraceback(*args, **kwargs)
+            
+            shell.showtraceback = ipython_showtraceback
+    except ImportError:
+        pass
 
     if hasattr(sys, 'ps1'):
         print('WARNING: better_exceptions will only inspect code from the command line\n'
