@@ -34,6 +34,27 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython
+
+To use `better_exceptions` in IPython, load the bundled extension:
+
+```ipython
+%load_ext better_exceptions.ipython
+```
+
+To load it automatically, add it to your IPython profile:
+
+```python
+c.InteractiveShellApp.extensions = ['better_exceptions.ipython']
+```
+
+You can also enable it programmatically:
+
+```python
+from better_exceptions.ipython import patch_ipython
+patch_ipython()
+```
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:
