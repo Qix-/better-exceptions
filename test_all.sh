@@ -23,7 +23,7 @@ function normalize {
 	# since the addresses change from run to run and break diff testing
 	#
 	# we also filter a number of other version-specific, spurious output lines
-	cat | sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' | sed 's|<module '"'[^']*' from '[^']*'>|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' | sed 's|File "/[^"]*"|File "/removed/for/test/purposes.ext"|g' | grep -v "bash: warning:" | grep -v 'now exiting BetterExceptionsConsole'
+	cat | sed 's|0x[a-fA-F0-9]\{1,\}|0xDEADBEEF|g' | sed 's|<module '"'[^']*' from '[^']*'>|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' | sed 's|<module '"'[^']*' from '[^']*\.\.\.|<module 'test_module' from '/removed/for/test/purposes.py'>"'|g' | sed 's|File "/[^"]*"|File "/removed/for/test/purposes.ext"|g' | grep -v "bash: warning:" | grep -v 'now exiting BetterExceptionsConsole'
 }
 
 function test_case {
