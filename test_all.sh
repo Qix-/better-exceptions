@@ -37,6 +37,12 @@ function test_case {
 	return $?
 }
 
+function assert_case {
+	echo -e "\x1b[36;1m   " "$@" "\x1b[m" 1>&2
+
+	"$@"
+}
+
 function test_all {
 	test_case "$PYTHON" "test/test.py"
 	test_case "$PYTHON" "test/test_color.py"
@@ -45,6 +51,7 @@ function test_all {
 	# test_case "./test/test_interactive_raw.sh"
 	test_case "./test/test_string.sh"
 	test_case "$PYTHON" "test/test_logging.py"
+	assert_case "$PYTHON" "test/test_file_logging.py"
 	test_case "$PYTHON" "test/test_truncating.py"
 	test_case "$PYTHON" "test/test_truncating_disabled.py"
 	test_case "$PYTHON" "test/test_indentation_error.py"
