@@ -37,9 +37,9 @@ def write_stream(data, stream=STREAM):
         stream.write(data)
 
 
-def format_exception(exc, value, tb):
+def format_exception(exc, value, tb, colored=SUPPORTS_COLOR):
     # Rebuild each time to take into account any changes made by the user to the global parameters
-    formatter = ExceptionFormatter(colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
+    formatter = ExceptionFormatter(colored=colored, theme=THEME, max_length=MAX_LENGTH,
                                    pipe_char=PIPE_CHAR, cap_char=CAP_CHAR)
     return list(formatter.format_exception(exc, value, tb))
 
