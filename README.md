@@ -34,6 +34,28 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython / Jupyter Usage
+
+To use `better_exceptions` in IPython or Jupyter notebooks, call the
+`install` function from within your IPython session:
+
+```python
+from better_exceptions.integrations.ipython import install
+install()
+```
+
+You can also add this to your IPython startup file
+(`~/.ipython/profile_default/startup/00-better_exceptions.py`)
+so it loads automatically:
+
+```python
+try:
+    from better_exceptions.integrations.ipython import install
+    install()
+except ImportError:
+    pass
+```
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:

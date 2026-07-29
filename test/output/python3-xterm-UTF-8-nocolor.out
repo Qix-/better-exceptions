@@ -153,6 +153,32 @@ AssertionError: assert baz == 90
 
 
 
+python3 test/test_logging_color.py
+
+
+test_non_tty_stream_no_color: PASSED
+test_force_color_overrides_tty_check: PASSED
+test_no_force_color_non_tty_no_color: PASSED
+test_file_handler_no_color: PASSED
+test_force_color_file_handler_has_color: PASSED
+
+All tests passed!
+
+
+
+python3 test/test_ipython_integration.py
+
+
+test_import_install: PASSED
+test_no_active_shell: PASSED
+test_install_with_mock_shell: PASSED
+test_handler_formats_exception: PASSED
+test_syntax_error_delegates_to_shell: PASSED
+
+All tests passed!
+
+
+
 python3 test/test_truncating.py
 
 
