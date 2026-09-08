@@ -34,6 +34,19 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython
+
+IPython handles cell errors itself instead of using Python's
+`sys.excepthook`. Load the included extension to format them with
+`better_exceptions`:
+
+```ipython
+In [1]: %load_ext better_exceptions
+```
+
+Use `%unload_ext better_exceptions` to restore IPython's previous exception
+handler.
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:
