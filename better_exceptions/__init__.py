@@ -59,3 +59,15 @@ def hook():
         print('WARNING: better_exceptions will only inspect code from the command line\n'
               '         when using: `python -m better_exceptions\'. Otherwise, only code\n'
               '         loaded from files will be inspected!', file=sys.stderr)
+
+
+def load_ipython_extension(ipython):
+    """Enable better-exceptions with ``%load_ext better_exceptions``."""
+    from .integrations.ipython import load_ipython_extension as load
+    load(ipython)
+
+
+def unload_ipython_extension(ipython):
+    """Disable the IPython extension and restore the previous handler."""
+    from .integrations.ipython import unload_ipython_extension as unload
+    unload(ipython)
