@@ -34,6 +34,31 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython
+
+IPython handles exceptions separately from Python's `sys.excepthook`. Enable
+better-exceptions explicitly in an IPython shell or notebook:
+
+```ipython
+%load_ext better_exceptions
+```
+
+Runtime exceptions will include the values used in the failing expressions.
+Syntax errors, custom exception renderers, and exception groups retain IPython's
+formatting. Existing custom exception handlers take precedence. `%debug` and
+automatic debugging with `%pdb on` remain available.
+
+To restore the previous handler:
+
+```ipython
+%unload_ext better_exceptions
+```
+
+To enable it at startup, add `'better_exceptions'` to
+`c.InteractiveShellApp.extensions` in your IPython configuration. IPython is an
+optional dependency; normal Python usage does not require it. Loading the
+extension does not require the `BETTER_EXCEPTIONS` environment variable.
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:

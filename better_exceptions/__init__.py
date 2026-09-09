@@ -49,6 +49,16 @@ def excepthook(exc, value, tb):
     write_stream(formatted, STREAM)
 
 
+def load_ipython_extension(ipython):
+    from .integrations.ipython import load_ipython_extension as load
+    load(ipython)
+
+
+def unload_ipython_extension(ipython):
+    from .integrations.ipython import unload_ipython_extension as unload
+    unload(ipython)
+
+
 def hook():
     sys.excepthook = excepthook
 

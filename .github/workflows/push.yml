@@ -25,3 +25,22 @@ jobs:
         - name: Run tests
           run: |
             ./test_all.sh
+
+    ipython:
+        runs-on: ubuntu-latest
+        strategy:
+          matrix:
+            include:
+            - python-version: "3.9"
+              ipython-version: "ipython>=7,<8"
+            - python-version: "3.12"
+              ipython-version: "ipython>=8,<9"
+            - python-version: "3.13"
+              ipython-version: "ipython>=9,<10"
+        steps:
+        - uses: actions/checkout@v2
+        - uses: actions/setup-python@v6
+          with:
+              python-version: ${{matrix.python-version}}
+        - run: pip install "${{matrix.ipython-version}}"
+        - run: python -m unittest discover -s test -p test_ipython.py
