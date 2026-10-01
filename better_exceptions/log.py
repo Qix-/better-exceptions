@@ -18,21 +18,29 @@ def _isolate_exc_text(formatter):
     instead of computing its own, because the cache lives on the shared
     record object, not per-handler.
 
-    Resetting ``exc_text`` back to ``None`` right after THIS formatter is
-    done with it forces every other handler to independently recompute its
-    own exception text, which is the only way two handlers with different
-    ``formatException`` behavior can coexist correctly regardless of
-    registration or execution order. Idempotent: safe to call more than
-    once per formatter (``patch()`` runs again for every new logger).
+    Restoring ``exc_text`` back to whatever it was BEFORE this formatter
+    ran -- not unconditionally to ``None`` -- forces every other handler to
+    independently recompute its own exception text in the common case
+    (nothing had set it yet), while never destroying a value some other,
+    unrelated piece of code may have legitimately pre-populated on the
+    record for its own reasons before any handler touched it. Done in a
+    ``try/finally`` so the restore happens even if the wrapped ``format()``
+    call itself raises -- otherwise a mid-formatting exception would leave
+    a colorized ``exc_text`` cached and ready to leak into the next
+    handler exactly like the bug this is fixing. Idempotent: safe to call
+    more than once per formatter (``patch()`` runs again for every new
+    logger).
     """
     if getattr(formatter, '_better_exceptions_isolated', False):
         return
     original_format = formatter.format
 
     def format(record):
-        result = original_format(record)
-        record.exc_text = None
-        return result
+        original_exc_text = record.exc_text
+        try:
+            return original_format(record)
+        finally:
+            record.exc_text = original_exc_text
 
     formatter.format = format
     formatter._better_exceptions_isolated = True

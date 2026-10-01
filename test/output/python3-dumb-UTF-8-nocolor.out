@@ -166,6 +166,14 @@ PASS: file handler output is plain text
 
 
 
+python3 test/test_exc_text_isolation_edge_cases.py
+
+
+PASS: pre-existing exc_text was preserved
+PASS: exc_text was restored despite the exception
+
+
+
 python3 test/test_truncating.py
 
 
