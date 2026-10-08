@@ -1,5 +1,31 @@
 # better-exceptions
 
+> [!WARNING]
+> **Thank you to everyone who has taken an interest in this project since I released it.** It is now archived.
+> `better-exceptions` was a throwaway module I wrote one night while toying with Starbound mods. Figured I'd
+> release it because it was quasi-useful to me, and it blew up on Reddit overnight and somehow made its way
+> into being critical infra for some people.
+>
+> With the onslaught of AI, I no longer have any interest or motivation to deal with this project. Further,
+> PyPi has made it clear they don't want to help me recover my accounts since my support requests have gone
+> unanswered for several months. I couldn't release a new version of this if I wanted to. I don't write Python
+> anymore, anyway.
+>
+> `better-exceptions` was never meant to be used in production. If you're using it in production, **stop**.
+> It's never been vetted.
+>
+> Further, a result of me archiving this means there will be forks and other versions of this that pop up
+> on PyPi or other places. **Be very careful.** This has been a very hot target of automated activity, and
+> I wouldn't be surprised if someone would try to include malware in some of those forks. I've been, [quite
+> famously](https://www.google.com/search?q=josh+junon+hacked), a target for such attacks.
+>
+> This was a fun project, until it wasn't. I appreciate everyone's feedback, input and contributions over the
+> years.
+>
+> \- Josh
+
+---
+
 Pretty and more helpful exceptions in Python, automatically.
 
 ![Example screenshot of exceptions](screenshot.png)
