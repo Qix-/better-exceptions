@@ -49,6 +49,9 @@ class ExceptionFormatter(object):
 
     def __init__(self, colored=SUPPORTS_COLOR, theme=THEME, max_length=MAX_LENGTH,
                        pipe_char=PIPE_CHAR, cap_char=CAP_CHAR):
+        import sys
+        if colored and not sys.stdout.isatty():
+                colored = False
         self._colored = colored
         self._theme = theme
         self._max_length = max_length
