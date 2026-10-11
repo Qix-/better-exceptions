@@ -60,6 +60,24 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 in order to drop into a `better_exceptions`-enabled Python interactive shell.
 
+### IPython
+
+In IPython, load the extension with:
+
+```python
+%load_ext better_exceptions
+```
+
+To turn it off again:
+
+```python
+%unload_ext better_exceptions
+```
+
+The extension formats normal tracebacks with `better_exceptions` and delegates
+special IPython cases such as syntax errors and `exception_only=True` back to
+IPython's own traceback handler.
+
 ### Advanced Usage
 
 If you want to allow the entirety of values to be outputted instead of being truncated to a certain amount of characters:
