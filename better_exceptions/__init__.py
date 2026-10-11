@@ -59,3 +59,21 @@ def hook():
         print('WARNING: better_exceptions will only inspect code from the command line\n'
               '         when using: `python -m better_exceptions\'. Otherwise, only code\n'
               '         loaded from files will be inspected!', file=sys.stderr)
+        try:
+        from IPython import get_ipython
+        ip = get_ipython()
+        if ip is not None:
+            import types
+            old_showtraceback = ip.showtraceback
+            
+            def exception_thunk(self, exc_tuple=None, filename=None, tb_offset=None, exception_only=False, **kwargs):
+                etype, value, tb = self._get_exc_info(exc_tuple)
+                if etype and not issubclass(etype, SyntaxError) and not exception_only:
+                    formatted = u''.join(format_exception(etype, value, tb))
+                    print(formatted)
+                    return None
+                return old_showtraceback(exc_tuple, filename, tb_offset, exception_only, **kwargs)
+            
+            ip.showtraceback = types.MethodType(exception_thunk, ip)
+    except ImportError:
+        pass
